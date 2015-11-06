@@ -24,13 +24,12 @@ public class EdoolsTest {
 			configFile = new ConfigFile(CONFIG_FILE_PATH);
 		} catch (IOException e) {
 			fail("Failed to load config.properties file.");
-			return;
 		}
 	}
 
 	@Test
 	public void singleProductTest() {
-		Edools edools = new Edools(configFile.getProperty("token"));
+		Edools edools = new Edools(configFile.getProperty("edoolsToken"));
 		Product product = edools.getProduct(7099);
 		assertEquals(product.getTitle(), "OAB 2 Fase - Direito Processual Trabalhista");
 	}
