@@ -30,4 +30,14 @@ public class ConfigFile {
 	public String getProperty(String key) {
 		return configFile.getProperty(key);
 	}
+
+	/**
+	 * Creates a default config.properties file with example values.
+	 * @param configFilePath Path where the config.properties file will be created.
+	 */
+	public static void createDefaultConfigFile(String configFilePath) {
+
+		//TODO: Create default config.properties file.
+
+	}
 }

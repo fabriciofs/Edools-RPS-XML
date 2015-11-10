@@ -35,7 +35,7 @@ public class Controller {
 			configFile = new ConfigFile(CONFIG_FILE_PATH);
 		} catch (FileNotFoundException e) {
 			view.dialog(labels.getString(CONFIG_FILE_NOT_FOUND));
-			//TODO: Create default config.properties file.
+			ConfigFile.createDefaultConfigFile(CONFIG_FILE_PATH);
 			return;
 		} catch (IOException e) {
 			view.dialog(labels.getString(CONFIG_READ_FAILURE));
