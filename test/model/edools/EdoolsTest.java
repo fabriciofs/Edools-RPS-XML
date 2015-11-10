@@ -33,11 +33,11 @@ public class EdoolsTest {
 	public void singleProductTest() {
 		Edools edools = new Edools(configFile.getProperty("edoolsToken"));
 		Product product = edools.getProduct(7099L);
-		assertEquals(product.getTitle(), "OAB 2 Fase - Direito Processual Trabalhista");
+		assertEquals(product.title, "OAB 2 Fase - Direito Processual Trabalhista");
 
 		String expectedDate = "2015-11-05T13:31:10.574Z";
 		assertEquals(
-				ISODateTimeFormat.dateTime().withZone(DateTimeZone.UTC).parseDateTime(product.getCreated_at()),
+				ISODateTimeFormat.dateTime().withZone(DateTimeZone.UTC).parseDateTime(product.created_at),
 				ISODateTimeFormat.dateTime().withZone(DateTimeZone.UTC).parseDateTime(expectedDate)
 		);
 	}
