@@ -89,6 +89,4 @@ public class Edools {
 		Gson gResponse = new Gson();
 		return Arrays.asList(gResponse.fromJson(payments.toString(), Payment[].class));
 	}
-
-	//TODO: Implement all Edools API methods.
 }
