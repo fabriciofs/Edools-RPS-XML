@@ -45,7 +45,7 @@ public class EdoolsTest {
 	@Test
 	public void paymentsTest() {
 		Edools edools = new Edools(configFile.getProperty("edoolsToken"));
-		List<Payment> payments = edools.getPayments("2015-11-04T22:47:10");
+		List<Payment> payments = edools.getPayments("2015-11-04T22:47:10", null);
 		assertFalse(payments.isEmpty());
 	}
 }

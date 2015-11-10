@@ -5,6 +5,7 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import com.mashape.unirest.request.GetRequest;
 import org.apache.http.HttpHeaders;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -29,6 +30,7 @@ public class Edools {
 	//PAYMENTS
 	private static final String PAYMENTS = "payments/";
 	private static final String PARAM_START_DATE = "start_date";
+	private static final String PARAM_STATUS = "status";
 	private static final String RESULT_PAYMENTS = "payments";
 
 	private String token;
@@ -43,7 +45,7 @@ public class Edools {
 	 * @return A Product.
 	 */
 	public Product getProduct(long id) {
-		HttpResponse<JsonNode> response = null;
+		HttpResponse<JsonNode> response;
 		try {
 			response = Unirest.get(EDOOLS_CORE_API + SCHOOL_PRODUCTS + id)
 					.header(HttpHeaders.AUTHORIZATION, "Token token=" + token)
@@ -59,13 +61,21 @@ public class Edools {
 
 	/**
 	 * Gets payments after a certain start date.
-	 * @param startDate A date in the ISO8601 format without timezone. E.g.: 2015-11-04T22:47:10.
+	 * @param startDate A date in the ISO8601 format without timezone. E.g.: "2015-11-04T22:47:10".
+	 * @param status A payment status. E.g.: "authorized, done". Nullable.
 	 * @return A List of Payments.
 	 */
-	public List<Payment> getPayments(String startDate) {
-		HttpResponse<JsonNode> response = null;
+	public List<Payment> getPayments(String startDate, String status) {
+		HttpResponse<JsonNode> response;
 		try {
-			response = Unirest.get(EDOOLS_ECOMMERCE_API + PAYMENTS + "?" + PARAM_START_DATE + "=" + startDate)
+			GetRequest request;
+			if(status != null) {
+				 request = Unirest.get(EDOOLS_ECOMMERCE_API + PAYMENTS + "?" + PARAM_START_DATE + "=" + startDate + "&" + PARAM_STATUS + "=" + status);
+			}
+			else {
+				request = Unirest.get(EDOOLS_ECOMMERCE_API + PAYMENTS + "?" + PARAM_START_DATE + "=" + startDate);
+			}
+			response = request
 					.header(HttpHeaders.AUTHORIZATION, AUTHORIZATION_STRING + token)
 					.header(HttpHeaders.ACCEPT, ACCEPT_STRING)
 					.asJson();
