@@ -14,12 +14,12 @@ import java.util.ResourceBundle;
  */
 public class Controller {
 
-	public static final String RESOURCE_BUNDLE_NAME = "strings";
-	public static final String CONFIG_FILE_PATH = "./config.properties";
-	public static final String CONFIG_FILE_NOT_FOUND = "configFileNotFound";
-	public static final String CONFIG_READ_FAILURE = "configReadFailure";
-	public static final String CONFIG_CHECK_INTERVAL = "checkInterval";
-	public static final String CHECK_INTERVAL_NOT_FOUND = "checkIntervalNotFound";
+	private static final String RESOURCE_BUNDLE_NAME = "strings";
+	private static final String CONFIG_FILE_PATH = "./config.properties";
+	private static final String CONFIG_FILE_NOT_FOUND = "configFileNotFound";
+	private static final String CONFIG_READ_FAILURE = "configReadFailure";
+	private static final String CONFIG_CHECK_INTERVAL = "checkInterval";
+	private static final String CHECK_INTERVAL_NOT_FOUND = "checkIntervalNotFound";
 
 	private ConfigFile configFile;
 	private View view;
