@@ -1,6 +1,8 @@
 package model.edools;
 
 import model.ConfigFile;
+import org.joda.time.DateTimeZone;
+import org.joda.time.format.ISODateTimeFormat;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
@@ -32,5 +34,11 @@ public class EdoolsTest {
 		Edools edools = new Edools(configFile.getProperty("edoolsToken"));
 		Product product = edools.getProduct(7099);
 		assertEquals(product.getTitle(), "OAB 2 Fase - Direito Processual Trabalhista");
+
+		String expectedDate = "2015-11-05T13:31:10.574Z";
+		assertEquals(
+				ISODateTimeFormat.dateTime().withZone(DateTimeZone.UTC).parseDateTime(product.getCreated_at()),
+				ISODateTimeFormat.dateTime().withZone(DateTimeZone.UTC).parseDateTime(expectedDate)
+		);
 	}
 }
