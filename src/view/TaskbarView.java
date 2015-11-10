@@ -19,6 +19,6 @@ public class TaskbarView implements View {
 
 	@Override
 	public void showMainView() {
-		//TODO: Implement main view.
+		//TODO: Implement main view. Start timer on controller.
 	}
 }

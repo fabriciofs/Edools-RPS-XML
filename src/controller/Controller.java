@@ -39,7 +39,28 @@ public class Controller {
 
 		 view.showMainView();
 
-		//TODO: Create Timer here.
+	}
+
+	//TODO: Create Timer. It will check for new payments, and alert the view of this.
+
+	public void startTimer() {
+
+		//TODO: Method to start the timer. To be used by the view, after generating an XML.
+
+	}
+
+	public void stopTimer() {
+
+		//TODO: Method to stop the timer. To be used by the view, after receiving an alert of new payments.
+
+	}
+
+	public boolean checkNewPayments() {
+
+		//TODO: Implement a check for new payments from Edools.
+
+		return false;
+
 	}
 
 	public void generateXML() {
