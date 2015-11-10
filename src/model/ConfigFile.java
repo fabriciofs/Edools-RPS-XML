@@ -19,6 +19,7 @@ public class ConfigFile {
 
 		configFile = new Properties();
 		configFile.load(in);
+		in.close();
 	}
 
 	/**
