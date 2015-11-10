@@ -3,6 +3,6 @@ package model.edools;
 /**
  * Created by Vitor on 10/11/2015.
  */
-public class Payment {
-	//TODO: Implement Payment.
+public class Item {
+	//TODO: Implement Item.
 }

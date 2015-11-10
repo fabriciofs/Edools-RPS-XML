@@ -41,4 +41,6 @@ public class EdoolsTest {
 				ISODateTimeFormat.dateTime().withZone(DateTimeZone.UTC).parseDateTime(expectedDate)
 		);
 	}
+
+	//TODO: Payment tests.
 }
