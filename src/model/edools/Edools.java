@@ -18,7 +18,8 @@ import java.util.List;
 public class Edools {
 
 	//EDOOLS API
-	private static final String EDOOLS_API = "https://core.edools.com/";
+	private static final String EDOOLS_CORE_API = "https://core.edools.com/";
+	private static final String EDOOLS_ECOMMERCE_API = "https://ecommerce.edools.com/";
 	private static final String AUTHORIZATION_STRING = "Token token=";
 	private static final String ACCEPT_STRING = "application/vnd.edools.core.v1+json";
 
@@ -44,7 +45,7 @@ public class Edools {
 	public Product getProduct(long id) {
 		HttpResponse<JsonNode> response = null;
 		try {
-			response = Unirest.get(EDOOLS_API + SCHOOL_PRODUCTS + id)
+			response = Unirest.get(EDOOLS_CORE_API + SCHOOL_PRODUCTS + id)
 					.header(HttpHeaders.AUTHORIZATION, "Token token=" + token)
 					.header(HttpHeaders.ACCEPT, "application/vnd.edools.core.v1+json")
 					.asJson();
@@ -64,7 +65,7 @@ public class Edools {
 	public List<Payment> getPayments(String startDate) {
 		HttpResponse<JsonNode> response = null;
 		try {
-			response = Unirest.get(EDOOLS_API + PAYMENTS + "?" + PARAM_START_DATE + "=" + startDate)
+			response = Unirest.get(EDOOLS_ECOMMERCE_API + PAYMENTS + "?" + PARAM_START_DATE + "=" + startDate)
 					.header(HttpHeaders.AUTHORIZATION, AUTHORIZATION_STRING + token)
 					.header(HttpHeaders.ACCEPT, ACCEPT_STRING)
 					.asJson();

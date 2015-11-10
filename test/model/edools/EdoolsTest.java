@@ -7,9 +7,9 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
+import java.util.List;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.fail;
+import static org.testng.Assert.*;
 
 /**
  * Created by Vitor on 05/11/2015.
@@ -42,5 +42,10 @@ public class EdoolsTest {
 		);
 	}
 
-	//TODO: Payment tests.
+	@Test
+	public void paymentsTest() {
+		Edools edools = new Edools(configFile.getProperty("edoolsToken"));
+		List<Payment> payments = edools.getPayments("2015-11-04T22:47:10");
+		assertFalse(payments.isEmpty());
+	}
 }
