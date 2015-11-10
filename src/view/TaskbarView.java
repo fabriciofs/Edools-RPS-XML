@@ -2,6 +2,9 @@ package view;
 
 import controller.Controller;
 
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+
 /**
  * Created by Vitor on 05/11/2015.
  */
@@ -18,7 +21,20 @@ public class TaskbarView implements View {
 	}
 
 	@Override
-	public void showMainView() {
-		//TODO: Implement main view. Start timer on controller.
+	public void showMainView(Timer timer) {
+		timer.start();
+
+		//TODO: Implement main view.
+
+		//TODO: Start the timer after generating an XML.
+
+		//TODO: Stop the timer after receiving an alert of new payments.
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+
+		//TODO: Implement actionPerformed.
+
 	}
 }

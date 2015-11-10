@@ -4,6 +4,7 @@ import model.ConfigFile;
 import view.TaskbarView;
 import view.View;
 
+import javax.swing.Timer;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ResourceBundle;
@@ -17,9 +18,13 @@ public class Controller {
 	public static final String CONFIG_FILE_PATH = "./config.properties";
 	public static final String CONFIG_FILE_NOT_FOUND = "configFileNotFound";
 	public static final String CONFIG_READ_FAILURE = "configReadFailure";
+	public static final String CONFIG_CHECK_INTERVAL = "configCheckInterval";
+	public static final String CHECK_INTERVAL_NOT_FOUND = "checkIntervalNotFound";
 
 	private ConfigFile configFile;
 	private View view;
+
+	private Timer timer;
 
 	public void start() {
 		ResourceBundle labels = ResourceBundle.getBundle(RESOURCE_BUNDLE_NAME);
@@ -37,21 +42,25 @@ public class Controller {
 			return;
 		}
 
-		 view.showMainView();
+		if(configFile.getProperty(CONFIG_CHECK_INTERVAL) == null) {
+			view.dialog(labels.getString(CHECK_INTERVAL_NOT_FOUND));
+			return;
+		}
+		timer = new Timer(Integer.parseInt(configFile.getProperty(CONFIG_CHECK_INTERVAL)), view);
+
+		view.showMainView(timer);
 
 	}
 
-	//TODO: Create Timer. It will check for new payments, and alert the view of this.
-
 	public void startTimer() {
 
-		//TODO: Method to start the timer. To be used by the view, after generating an XML.
+		timer.start();
 
 	}
 
 	public void stopTimer() {
 
-		//TODO: Method to stop the timer. To be used by the view, after receiving an alert of new payments.
+		timer.stop();
 
 	}
 
