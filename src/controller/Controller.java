@@ -1,8 +1,6 @@
 package controller;
 
 import model.ConfigFile;
-import model.database.Database;
-import model.database.PostgreDatabase;
 import view.TaskbarView;
 import view.View;
 
@@ -44,11 +42,9 @@ public class Controller {
 		//TODO: Create Timer here.
 	}
 
-	public void checkNewPayments() {
-		Database database = new PostgreDatabase();
+	public void generateXML() {
 
-		//TODO: Implement the rest of the controller.
-
+		//TODO: Implement the payment fetching and XML generation.
 
 	}
 }
