@@ -36,7 +36,12 @@ public class Edools {
 		this.token = token;
 	}
 
-	public Product getProduct(int id) {
+	/**
+	 * Gets a product with a certain ID.
+	 * @param id A product ID.
+	 * @return A Product.
+	 */
+	public Product getProduct(long id) {
 		HttpResponse<JsonNode> response = null;
 		try {
 			response = Unirest.get(EDOOLS_API + SCHOOL_PRODUCTS + id)

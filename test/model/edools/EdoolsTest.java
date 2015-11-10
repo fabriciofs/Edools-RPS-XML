@@ -32,7 +32,7 @@ public class EdoolsTest {
 	@Test
 	public void singleProductTest() {
 		Edools edools = new Edools(configFile.getProperty("edoolsToken"));
-		Product product = edools.getProduct(7099);
+		Product product = edools.getProduct(7099L);
 		assertEquals(product.getTitle(), "OAB 2 Fase - Direito Processual Trabalhista");
 
 		String expectedDate = "2015-11-05T13:31:10.574Z";
