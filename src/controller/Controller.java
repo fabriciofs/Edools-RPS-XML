@@ -18,7 +18,7 @@ public class Controller {
 	public static final String CONFIG_FILE_PATH = "./config.properties";
 	public static final String CONFIG_FILE_NOT_FOUND = "configFileNotFound";
 	public static final String CONFIG_READ_FAILURE = "configReadFailure";
-	public static final String CONFIG_CHECK_INTERVAL = "configCheckInterval";
+	public static final String CONFIG_CHECK_INTERVAL = "checkInterval";
 	public static final String CHECK_INTERVAL_NOT_FOUND = "checkIntervalNotFound";
 
 	private ConfigFile configFile;
