@@ -5,6 +5,7 @@ import model.Persistence;
 import model.edools.Edools;
 import model.edools.Payment;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import view.ConsoleView;
@@ -35,8 +36,9 @@ public class Controller {
 	private static final String CONFIG_READ_FAILURE = "configReadFailure";
 	private static final String CONFIG_CHECK_INTERVAL = "checkInterval";
 	private static final String CHECK_INTERVAL_NOT_FOUND = "checkIntervalNotFound";
-	private static final String PERSISTENCE_FILE_NOT_FOUND= "persistenceFileNotFound";
-	private static final String PERSISTENCE_FILE_COULD_NOT_READ= "persistenceFileCouldNotRead";
+	private static final String PERSISTENCE_FILE_NOT_FOUND = "persistenceFileNotFound";
+	private static final String PERSISTENCE_FILE_COULD_NOT_READ = "persistenceFileCouldNotRead";
+	private static final String PERSISTENCE_FILE_COULD_NOT_WRITE = "persistenceFileCouldNotWrite";
 	private static final String CHECKING_NEW_PAYMENTS = "checkingNewPayments";
 	private static final String NEW_PAYMENTS_FOUND = "newPaymentsFound";
 	private static final String SHOULD_GENERATE_XML = "shouldGenerateXml";
@@ -165,6 +167,11 @@ public class Controller {
 
 		//TODO: Implement the XML generation.
 
+		try {
+			persistence.persistDate(new DateTime(DateTimeZone.UTC));
+		} catch (IOException e) {
+			view.dialog(labels.getString(PERSISTENCE_FILE_COULD_NOT_WRITE));
+		}
 		startTimer();
 
 	}
