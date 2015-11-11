@@ -43,6 +43,11 @@ public class Controller {
 	private static final String NEW_PAYMENTS_FOUND = "newPaymentsFound";
 	private static final String SHOULD_GENERATE_XML = "shouldGenerateXml";
 
+	//Local strings
+	private static final String LANGUAGE_CODE = "pt";
+	private static final String COUNTRY_CODE = "BR";
+	private static final String EDOOLS_API_DATE_PATTERN = "yyyy-MM-dd'T'HH:mm:ss";
+
 	//Constants
 	private static final long MILLI_TO_SECONDS_MULTIPLIER = 1000;
 
@@ -58,7 +63,7 @@ public class Controller {
 	}
 
 	public void start() {
-		labels = ResourceBundle.getBundle(RESOURCE_BUNDLE_NAME, new Locale("pt", "BR"));
+		labels = ResourceBundle.getBundle(RESOURCE_BUNDLE_NAME, new Locale(LANGUAGE_CODE, COUNTRY_CODE));
 
 		view = new ConsoleView(this);
 
@@ -149,7 +154,7 @@ public class Controller {
 		}
 
 		Edools edools = new Edools(configFile.getProperty(PROPERTY_EDOOLS_TOKEN));
-		DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss");
+		DateTimeFormatter dtf = DateTimeFormat.forPattern(EDOOLS_API_DATE_PATTERN);
 		return !edools.getPayments(dateTime.toString(dtf), configFile.getProperty(PROPERTY_EDOOLS_STATUS)).isEmpty();
 
 	}
@@ -162,7 +167,7 @@ public class Controller {
 		}
 
 		Edools edools = new Edools(configFile.getProperty(PROPERTY_EDOOLS_TOKEN));
-		DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss");
+		DateTimeFormatter dtf = DateTimeFormat.forPattern(EDOOLS_API_DATE_PATTERN);
 		List<Payment> payments = edools.getPayments(dateTime.toString(dtf), configFile.getProperty(PROPERTY_EDOOLS_STATUS));
 
 		//TODO: Implement the RPS generation, add each RPS to XMLWriter and generate the XML.
