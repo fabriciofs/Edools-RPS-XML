@@ -165,7 +165,7 @@ public class Controller {
 		DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss");
 		List<Payment> payments = edools.getPayments(dateTime.toString(dtf), configFile.getProperty(PROPERTY_EDOOLS_STATUS));
 
-		//TODO: Implement the XML generation.
+		//TODO: Implement the RPS generation, add each RPS to XMLWriter and generate the XML.
 
 		try {
 			persistence.persistDate(new DateTime(DateTimeZone.UTC));
