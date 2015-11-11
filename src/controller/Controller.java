@@ -3,6 +3,7 @@ package controller;
 import model.ConfigFile;
 import model.Persistence;
 import model.edools.Edools;
+import model.edools.Payment;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -115,8 +116,7 @@ public class Controller {
 
 	}
 
-	public boolean checkNewPayments() {
-
+	private DateTime fetchDateFromPersistence() {
 		DateTime dateTime;
 		try {
 			dateTime = persistence.fetchDate();
@@ -128,12 +128,21 @@ public class Controller {
 				stopTimer();
 				view.dialog(labels.getString(PERSISTENCE_FILE_NOT_FOUND));
 				startTimer();
-				return false;
+				return null;
 			}
 		} catch (IOException e) {
 			stopTimer();
 			view.dialog(labels.getString(PERSISTENCE_FILE_COULD_NOT_READ));
 			startTimer();
+			return null;
+		}
+		return dateTime;
+	}
+
+	public boolean checkNewPayments() {
+
+		DateTime dateTime = fetchDateFromPersistence();
+		if(dateTime == null) {
 			return false;
 		}
 
@@ -145,7 +154,16 @@ public class Controller {
 
 	public void generateXML() {
 
-		//TODO: Implement the payment fetching and XML generation.
+		DateTime dateTime = fetchDateFromPersistence();
+		if(dateTime == null) {
+			return;
+		}
+
+		Edools edools = new Edools(configFile.getProperty(PROPERTY_EDOOLS_TOKEN));
+		DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss");
+		List<Payment> payments = edools.getPayments(dateTime.toString(dtf), configFile.getProperty(PROPERTY_EDOOLS_STATUS));
+
+		//TODO: Implement the XML generation.
 
 		startTimer();
 
