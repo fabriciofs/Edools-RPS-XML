@@ -1,7 +1,6 @@
 package controller;
 
-import model.ConfigFile;
-import model.Persistence;
+import model.*;
 import model.edools.Edools;
 import model.edools.Payment;
 import org.joda.time.DateTime;
@@ -28,6 +27,7 @@ public class Controller {
 	//File paths
 	private static final String CONFIG_FILE_PATH = "./config.properties";
 	private static final String PERSISTENCE_FILE_PATH = "./persistence.txt";
+	private static final String XML_FILE_PATH = "./";
 
 	//Config properties
 	private static final String PROPERTY_EDOOLS_TOKEN = "edoolsToken";
@@ -47,6 +47,7 @@ public class Controller {
 
 	//Patterns
 	private static final String EDOOLS_API_DATE_PATTERN = "yyyy-MM-dd'T'HH:mm:ss";
+	private static final String XML_DATE_PATTERN = "dd-MM-yyyy-HH-mm-ss";
 
 	//Constants
 	private static final long MILLI_TO_SECONDS_MULTIPLIER = 1000;
@@ -170,7 +171,15 @@ public class Controller {
 		DateTimeFormatter dtf = DateTimeFormat.forPattern(EDOOLS_API_DATE_PATTERN);
 		List<Payment> payments = edools.getPayments(dateTime.toString(dtf), configFile.getProperty(PROPERTY_EDOOLS_STATUS));
 
-		//TODO: Implement the RPS generation, add each RPS to XMLWriter and generate the XML.
+		List<RPS> rpsList = new ArrayList<RPS>();
+
+		//TODO: Populate the RPS list.
+
+		RPSBulk rpsBulk = new RPSBulk();
+		rpsBulk.setListaRps(rpsList);
+
+		XMLWriter xmlWriter = new XMLWriter(rpsBulk);
+		xmlWriter.generateXML(XML_FILE_PATH + dateTime.withZone(DateTimeZone.UTC).toString(XML_DATE_PATTERN));
 
 		try {
 			persistence.persistDate(new DateTime(DateTimeZone.UTC));

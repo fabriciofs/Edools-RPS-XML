@@ -1,20 +1,19 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by Vitor on 05/11/2015.
  */
 public class XMLWriter {
 
-	List<RPS> rpses = new ArrayList<RPS>();
+	private final RPSBulk rpsBulk;
 
-	public void addRPS(RPS rps) {
-		rpses.add(rps);
+	public XMLWriter(RPSBulk rpsBulk) {
+		this.rpsBulk = rpsBulk;
 	}
 
 	public void generateXML(String path) {
+
 		//TODO: generateXML method.
+
 	}
 }
