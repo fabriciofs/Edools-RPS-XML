@@ -1,21 +1,25 @@
 package view;
 
-import javax.swing.*;
-import java.awt.event.ActionListener;
-
 /**
  * Created by Vitor on 05/11/2015.
  */
-public interface View extends ActionListener {
+public interface View {
 
 	/**
 	 * Displays a simple dialog with text and an OK button.
 	 * @param text Text to be displayed in the dialog.
 	 */
-	public void dialog(String text);
+	void dialog(String text);
 
 	/**
 	 * Displays the main view.
 	 */
-	public void showMainView();
+	void showMainView();
+
+	/**
+	 * A boolean input to the user.
+	 * @param text Message to be displayed to the user.
+	 * @return A boolean result.
+	 */
+	boolean booleanInput(String text);
 }

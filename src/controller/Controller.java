@@ -9,11 +9,9 @@ import org.joda.time.format.DateTimeFormatter;
 import view.ConsoleView;
 import view.View;
 
-import javax.swing.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Locale;
-import java.util.ResourceBundle;
+import java.util.*;
 
 /**
  * Created by Vitor on 05/11/2015.
@@ -38,9 +36,12 @@ public class Controller {
 	private static final String CHECK_INTERVAL_NOT_FOUND = "checkIntervalNotFound";
 	private static final String PERSISTENCE_FILE_NOT_FOUND= "persistenceFileNotFound";
 	private static final String PERSISTENCE_FILE_COULD_NOT_READ= "persistenceFileCouldNotRead";
+	private static final String CHECKING_NEW_PAYMENTS = "checkingNewPayments";
+	private static final String NEW_PAYMENTS_FOUND = "newPaymentsFound";
+	private static final String SHOULD_GENERATE_XML = "shouldGenerateXml";
 
 	//Constants
-	private static final int MILLI_TO_MINUTES_MULTIPLIER = 1000*1000;
+	private static final long MILLI_TO_SECONDS_MULTIPLIER = 1000;
 
 	private ResourceBundle labels;
 	private ConfigFile configFile;
@@ -48,6 +49,10 @@ public class Controller {
 
 	private Persistence persistence;
 	private Timer timer;
+
+	public String getLabel(String key) {
+		return labels.getString(key);
+	}
 
 	public void start() {
 		labels = ResourceBundle.getBundle(RESOURCE_BUNDLE_NAME, new Locale("pt", "BR"));
@@ -71,32 +76,54 @@ public class Controller {
 		}
 
 		persistence = new Persistence(PERSISTENCE_FILE_PATH);
-		timer = new Timer(Integer.parseInt(configFile.getProperty(CONFIG_CHECK_INTERVAL)) * MILLI_TO_MINUTES_MULTIPLIER, view);
+
+		timer = new Timer(false);
+		timer.schedule(new checkPaymentsTask(), Long.parseLong(configFile.getProperty(CONFIG_CHECK_INTERVAL)) * MILLI_TO_SECONDS_MULTIPLIER);
 
 		view.showMainView();
+		startTimer();
 
+	}
+
+	class checkPaymentsTask extends TimerTask {
+
+		@Override
+		public void run() {
+			view.dialog(labels.getString(CHECKING_NEW_PAYMENTS));
+			if(checkNewPayments()) {
+				stopTimer();
+
+				view.dialog(labels.getString(NEW_PAYMENTS_FOUND));
+				if(view.booleanInput(labels.getString(SHOULD_GENERATE_XML))) {
+					generateXML();
+				}
+			}
+		}
 	}
 
 	public void startTimer() {
 
-		timer.start();
+		timer.cancel();
+		timer = new Timer(false);
+		timer.schedule(new checkPaymentsTask(), Long.parseLong(configFile.getProperty(CONFIG_CHECK_INTERVAL)) * MILLI_TO_SECONDS_MULTIPLIER);
 
 	}
 
 	public void stopTimer() {
 
-		timer.stop();
+		timer.cancel();
 
 	}
 
 	public boolean checkNewPayments() {
 
-		DateTime dateTime = null;
+		DateTime dateTime;
 		try {
 			dateTime = persistence.fetchDate();
 		} catch (FileNotFoundException e) {
 			try {
 				persistence.persistDate(new DateTime(0));
+				dateTime = new DateTime(0);
 			} catch (IOException e1) {
 				stopTimer();
 				view.dialog(labels.getString(PERSISTENCE_FILE_NOT_FOUND));
@@ -119,6 +146,8 @@ public class Controller {
 	public void generateXML() {
 
 		//TODO: Implement the payment fetching and XML generation.
+
+		startTimer();
 
 	}
 }

@@ -2,9 +2,6 @@ package view;
 
 import controller.Controller;
 
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-
 /**
  * Created by Vitor on 05/11/2015.
  */
@@ -26,15 +23,13 @@ public class TaskbarView implements View {
 
 		//TODO: Implement main view.
 
-		//TODO: Stop the timer after receiving an alert of new payments.
-
-		//TODO: Start the timer after generating an XML.
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public boolean booleanInput(String text) {
 
-		//TODO: Implement actionPerformed.
+		//TODO: Implement boolean input dialog.
 
+		return false;
 	}
 }

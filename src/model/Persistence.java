@@ -32,7 +32,11 @@ public class Persistence {
 
 		BufferedReader in = new BufferedReader(new InputStreamReader(fis));
 
-		return ISODateTimeFormat.dateTime().withZone(DateTimeZone.UTC).parseDateTime(in.readLine().trim());
+		String read = in.readLine().trim();
+
+		in.close();
+
+		return ISODateTimeFormat.dateTime().withZone(DateTimeZone.UTC).parseDateTime(read);
 	}
 
 	/**
@@ -49,6 +53,7 @@ public class Persistence {
 
 		out.write(date.toString());
 
+		out.close();
 
 	}
 

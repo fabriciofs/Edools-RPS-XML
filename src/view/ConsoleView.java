@@ -2,7 +2,6 @@ package view;
 
 import controller.Controller;
 
-import java.awt.event.ActionEvent;
 import java.util.Scanner;
 
 /**
@@ -10,39 +9,40 @@ import java.util.Scanner;
  */
 public class ConsoleView implements View {
 
+	//Strings
+	private static final String YES_TEXT = "yes";
+	private static final String NO_TEXT = "no";
+	private static final String WELCOME_STRING = "welcomeString";
+
+	//Local strings
+	private static final String OUTPUT_MARK = "> ";
+
 	private final Controller controller;
-	private static final String ALERT_TEXT = "ALERTA: ";
-	private static final String NEW_PAYMENTS_FOUND_TEXT = "Novos pagamentos encontrados.";
-	private static final String YES_TEXT = "sim";
 
 	public ConsoleView(Controller controller) {
 		this.controller = controller;
 	}
-
 	@Override
 	public void dialog(String text) {
-		System.out.println(ALERT_TEXT + text);
+		System.out.println(OUTPUT_MARK + text);
 	}
 
 	@Override
 	public void showMainView() {
-		controller.startTimer();
+		System.out.println(controller.getLabel(WELCOME_STRING));
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		if(controller.checkNewPayments()) {
-			controller.stopTimer();
-			Scanner keyboard = new Scanner(System.in);
-			System.out.println(NEW_PAYMENTS_FOUND_TEXT);
-			boolean waiting = true;
-			while(waiting) {
-				String input = keyboard.nextLine().toLowerCase();
-				if (input.contains(YES_TEXT)) {
-					controller.generateXML();
-					controller.startTimer();
-					waiting = false;
-				}
+	public boolean booleanInput(String text) {
+		System.out.println(text);
+		Scanner keyboard = new Scanner(System.in);
+		while(true) {
+			String input = keyboard.nextLine().toLowerCase().trim();
+			if(input.startsWith(controller.getLabel(YES_TEXT))) {
+				return true;
+			}
+			else if(input.startsWith(controller.getLabel(NO_TEXT))) {
+				return false;
 			}
 		}
 	}
