@@ -7,6 +7,7 @@ import model.edools.Payment;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import view.ConsoleView;
 import view.TaskbarView;
 import view.View;
 
@@ -50,7 +51,7 @@ public class Controller {
 	public void start() {
 		labels = ResourceBundle.getBundle(RESOURCE_BUNDLE_NAME);
 
-		view = new TaskbarView(this);
+		view = new ConsoleView(this);
 
 		try {
 			configFile = new ConfigFile(CONFIG_FILE_PATH);
@@ -71,7 +72,7 @@ public class Controller {
 		persistence = new Persistence(PERSISTENCE_FILE_PATH);
 		timer = new Timer(Integer.parseInt(configFile.getProperty(CONFIG_CHECK_INTERVAL)), view);
 
-		view.showMainView(timer);
+		view.showMainView();
 
 	}
 
@@ -110,7 +111,7 @@ public class Controller {
 
 		Edools edools = new Edools(configFile.getProperty(PROPERTY_EDOOLS_TOKEN));
 		DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss");
-		return !edools.getPayments(dateTime.toString(dtf), configFile.getProperty(PROPERTY_EDOOLS_TOKEN)).isEmpty();
+		return !edools.getPayments(dateTime.toString(dtf), configFile.getProperty(PROPERTY_EDOOLS_STATUS)).isEmpty();
 
 	}
 

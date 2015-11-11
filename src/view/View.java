@@ -16,7 +16,6 @@ public interface View extends ActionListener {
 
 	/**
 	 * Displays the main view.
-	 * @param timer Timer that will check for new payments.
 	 */
-	public void showMainView(Timer timer);
+	public void showMainView();
 }

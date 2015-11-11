@@ -21,14 +21,14 @@ public class TaskbarView implements View {
 	}
 
 	@Override
-	public void showMainView(Timer timer) {
-		timer.start();
+	public void showMainView() {
+		controller.startTimer();
 
 		//TODO: Implement main view.
 
-		//TODO: Start the timer after generating an XML.
-
 		//TODO: Stop the timer after receiving an alert of new payments.
+
+		//TODO: Start the timer after generating an XML.
 	}
 
 	@Override
