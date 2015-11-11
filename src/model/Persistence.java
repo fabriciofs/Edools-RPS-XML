@@ -1,8 +1,10 @@
 package model;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.format.ISODateTimeFormat;
 
-import java.io.File;
+import java.io.*;
 
 /**
  * Created by Vitor on 10/11/2015.
@@ -17,16 +19,36 @@ public class Persistence {
 
 	}
 
-	public DateTime fetchDate() {
+	/**
+	 * Fetches a date from the persistence file.
+	 * @return A date.
+	 * @throws FileNotFoundException If the file is not found.
+	 * @throws IOException If the file cannot be read.
+	 */
+	public DateTime fetchDate() throws IOException {
 
-		//TODO: Implement date fetching from file.
+		FileInputStream fis;
+		fis = new FileInputStream(persistenceFile);
 
-		return null;
+		BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+
+		return ISODateTimeFormat.dateTime().withZone(DateTimeZone.UTC).parseDateTime(in.readLine().trim());
 	}
 
-	public void persistDate(DateTime date) {
+	/**
+	 * Persists a date to the persistence file.
+	 * @throws FileNotFoundException If the file is not found or cannot be created.
+	 * @throws IOException If the file cannot be written to.
+	 */
+	public void persistDate(DateTime date) throws IOException {
 
-		//TODO: Implement date writing to file.
+		FileOutputStream fos;
+		fos = new FileOutputStream(persistenceFile, false);
+
+		BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
+
+		out.write(date.toString());
+
 
 	}
 
