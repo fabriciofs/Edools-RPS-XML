@@ -22,6 +22,8 @@ public class Controller {
 
 	//Resource bundles
 	private static final String RESOURCE_BUNDLE_NAME = "strings";
+	private static final String LANGUAGE_CODE = "pt";
+	private static final String COUNTRY_CODE = "BR";
 
 	//File paths
 	private static final String CONFIG_FILE_PATH = "./config.properties";
@@ -43,9 +45,7 @@ public class Controller {
 	private static final String NEW_PAYMENTS_FOUND = "newPaymentsFound";
 	private static final String SHOULD_GENERATE_XML = "shouldGenerateXml";
 
-	//Local strings
-	private static final String LANGUAGE_CODE = "pt";
-	private static final String COUNTRY_CODE = "BR";
+	//Patterns
 	private static final String EDOOLS_API_DATE_PATTERN = "yyyy-MM-dd'T'HH:mm:ss";
 
 	//Constants
