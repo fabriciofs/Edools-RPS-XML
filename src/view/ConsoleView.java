@@ -35,13 +35,14 @@ public class ConsoleView implements View {
 			controller.stopTimer();
 			Scanner keyboard = new Scanner(System.in);
 			System.out.println(NEW_PAYMENTS_FOUND_TEXT);
-			String input = keyboard.nextLine().toLowerCase();
-			if(input.contains(YES_TEXT)) {
-				controller.generateXML();
-				controller.startTimer();
-			}
-			else {
-				controller.startTimer();
+			boolean waiting = true;
+			while(waiting) {
+				String input = keyboard.nextLine().toLowerCase();
+				if (input.contains(YES_TEXT)) {
+					controller.generateXML();
+					controller.startTimer();
+					waiting = false;
+				}
 			}
 		}
 	}

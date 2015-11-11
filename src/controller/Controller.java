@@ -3,18 +3,16 @@ package controller;
 import model.ConfigFile;
 import model.Persistence;
 import model.edools.Edools;
-import model.edools.Payment;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import view.ConsoleView;
-import view.TaskbarView;
 import view.View;
 
-import javax.swing.Timer;
+import javax.swing.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
@@ -41,6 +39,9 @@ public class Controller {
 	private static final String PERSISTENCE_FILE_NOT_FOUND= "persistenceFileNotFound";
 	private static final String PERSISTENCE_FILE_COULD_NOT_READ= "persistenceFileCouldNotRead";
 
+	//Constants
+	private static final int MILLI_TO_MINUTES_MULTIPLIER = 1000*1000;
+
 	private ResourceBundle labels;
 	private ConfigFile configFile;
 	private View view;
@@ -49,7 +50,7 @@ public class Controller {
 	private Timer timer;
 
 	public void start() {
-		labels = ResourceBundle.getBundle(RESOURCE_BUNDLE_NAME);
+		labels = ResourceBundle.getBundle(RESOURCE_BUNDLE_NAME, new Locale("pt", "BR"));
 
 		view = new ConsoleView(this);
 
@@ -70,7 +71,7 @@ public class Controller {
 		}
 
 		persistence = new Persistence(PERSISTENCE_FILE_PATH);
-		timer = new Timer(Integer.parseInt(configFile.getProperty(CONFIG_CHECK_INTERVAL)), view);
+		timer = new Timer(Integer.parseInt(configFile.getProperty(CONFIG_CHECK_INTERVAL)) * MILLI_TO_MINUTES_MULTIPLIER, view);
 
 		view.showMainView();
 
