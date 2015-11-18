@@ -2,6 +2,7 @@ package controller;
 
 import model.*;
 import model.edools.Edools;
+import model.edools.Item;
 import model.edools.Payment;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -174,10 +175,18 @@ public class Controller {
 		List<RPS> rpsList = new ArrayList<RPS>();
 
 		for(Payment payment : payments) {
-			RPS rps = new RPS();
 
-			//TODO: Populate the RPS.
+			Item[] items = payment.order.items;
+			for(Item item : items) {
 
+				RPS rps = new RPS();
+				rps.setRazaoSocial(payment.customer.first_name + payment.customer.last_name);
+				rps.setEmail(payment.customer.email);
+				rps.setDiscriminacao(item.product.description);
+
+				//TODO: Populate the remaining RPS values.
+
+			}
 		}
 
 		RPSBulk rpsBulk = new RPSBulk();
