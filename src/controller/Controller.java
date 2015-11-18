@@ -183,6 +183,7 @@ public class Controller {
 				rps.setRazaoSocial(payment.customer.first_name + payment.customer.last_name);
 				rps.setEmail(payment.customer.email);
 				rps.setDiscriminacao(item.product.description);
+				rps.setItemListaServico(Long.toString(item.id));
 
 				//TODO: Populate the remaining RPS values.
 
