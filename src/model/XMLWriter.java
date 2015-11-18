@@ -5,13 +5,9 @@ package model;
  */
 public class XMLWriter {
 
-	private final RPSBulk rpsBulk;
+	private XMLWriter() {}
 
-	public XMLWriter(RPSBulk rpsBulk) {
-		this.rpsBulk = rpsBulk;
-	}
-
-	public void generateXML(String path) {
+	public static void generateXML(RPSBulk rpsBulk, String path) {
 
 		//TODO: generateXML method.
 

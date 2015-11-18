@@ -178,8 +178,7 @@ public class Controller {
 		RPSBulk rpsBulk = new RPSBulk();
 		rpsBulk.setListaRps(rpsList);
 
-		XMLWriter xmlWriter = new XMLWriter(rpsBulk);
-		xmlWriter.generateXML(XML_FILE_PATH + dateTime.withZone(DateTimeZone.UTC).toString(XML_DATE_PATTERN));
+		XMLWriter.generateXML(rpsBulk, XML_FILE_PATH + dateTime.withZone(DateTimeZone.UTC).toString(XML_DATE_PATTERN));
 
 		try {
 			persistence.persistDate(new DateTime(DateTimeZone.UTC));
