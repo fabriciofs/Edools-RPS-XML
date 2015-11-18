@@ -173,7 +173,12 @@ public class Controller {
 
 		List<RPS> rpsList = new ArrayList<RPS>();
 
-		//TODO: Populate the RPS list.
+		for(Payment payment : payments) {
+			RPS rps = new RPS();
+
+			//TODO: Populate the RPS.
+
+		}
 
 		RPSBulk rpsBulk = new RPSBulk();
 		rpsBulk.setListaRps(rpsList);
