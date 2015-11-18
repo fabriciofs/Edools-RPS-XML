@@ -89,4 +89,6 @@ public class Edools {
 		Gson gResponse = new Gson();
 		return Arrays.asList(gResponse.fromJson(payments.toString(), Payment[].class));
 	}
+
+	//TODO: getCustomer method, by guid.
 }
