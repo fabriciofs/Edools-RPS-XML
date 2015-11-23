@@ -8,6 +8,7 @@ import java.util.List;
 public class RPSBulk {
 
 	private String id;
+	private String numeroLote;
 	private String cnpj;
 	private String inscricaoMunicipal;
 	private List<RPS> listaRps;
@@ -18,6 +19,14 @@ public class RPSBulk {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public String getNumeroLote() {
+		return numeroLote;
+	}
+
+	public void setNumeroLote(String numeroLote) {
+		this.numeroLote = numeroLote;
 	}
 
 	public String getCnpj() {

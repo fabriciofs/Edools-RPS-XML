@@ -33,13 +33,14 @@ public class Controller {
 	//Config properties
 	private static final String PROPERTY_EDOOLS_TOKEN = "edoolsToken";
 	private static final String PROPERTY_EDOOLS_STATUS = "edoolsStatus";
+	private static final String CONFIG_CHECK_INTERVAL = "checkInterval";
+	private static final String CONFIG_CNPJ = "cnpj";
+	private static final String CONFIG_INSCRICAO_MUNICIPAL= "inscricaoMunicipal";
 
 	//Strings
 	private static final String CONFIG_FILE_NOT_FOUND = "configFileNotFound";
 	private static final String CONFIG_READ_FAILURE = "configReadFailure";
-	private static final String CONFIG_CHECK_INTERVAL = "checkInterval";
 	private static final String CHECK_INTERVAL_NOT_FOUND = "checkIntervalNotFound";
-	private static final String PERSISTENCE_FILE_NOT_FOUND = "persistenceFileNotFound";
 	private static final String PERSISTENCE_FILE_COULD_NOT_READ = "persistenceFileCouldNotRead";
 	private static final String PERSISTENCE_FILE_COULD_NOT_WRITE = "persistenceFileCouldNotWrite";
 	private static final String CHECKING_NEW_PAYMENTS = "checkingNewPayments";
@@ -48,6 +49,7 @@ public class Controller {
 
 	//Patterns
 	private static final String EDOOLS_API_DATE_PATTERN = "yyyy-MM-dd'T'HH:mm:ss";
+	private static final String RPSBULK_ID_DATE_PATTERN = "HHmmssddMMyyyy";
 	private static final String XML_DATE_PATTERN = "dd-MM-yyyy-HH-mm-ss";
 
 	//Constants
@@ -128,17 +130,8 @@ public class Controller {
 	private DateTime fetchDateFromPersistence() {
 		DateTime dateTime;
 		try {
-			dateTime = persistence.fetchDate();
-		} catch (FileNotFoundException e) {
-			try {
-				persistence.persistDate(new DateTime(0));
-				dateTime = new DateTime(0);
-			} catch (IOException e1) {
-				stopTimer();
-				view.dialog(labels.getString(PERSISTENCE_FILE_NOT_FOUND));
-				startTimer();
-				return null;
-			}
+			persistence.fetch();
+			dateTime = persistence.getDate();
 		} catch (IOException e) {
 			stopTimer();
 			view.dialog(labels.getString(PERSISTENCE_FILE_COULD_NOT_READ));
@@ -190,13 +183,21 @@ public class Controller {
 			}
 		}
 
+		DateTime currentDate = new DateTime(DateTimeZone.UTC);
+
 		RPSBulk rpsBulk = new RPSBulk();
+
+		DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern(RPSBULK_ID_DATE_PATTERN);
+		rpsBulk.setId(currentDate.toString(dateTimeFormatter));
+		rpsBulk.setNumeroLote(Long.toString(persistence.getNumeroLote()));
+		rpsBulk.setCnpj(configFile.getProperty(CONFIG_CNPJ));
+		rpsBulk.setInscricaoMunicipal(configFile.getProperty(CONFIG_INSCRICAO_MUNICIPAL));
 		rpsBulk.setListaRps(rpsList);
 
 		XMLWriter.generateXML(rpsBulk, XML_FILE_PATH + dateTime.withZone(DateTimeZone.UTC).toString(XML_DATE_PATTERN));
 
 		try {
-			persistence.persistDate(new DateTime(DateTimeZone.UTC));
+			persistence.persist(currentDate);
 		} catch (IOException e) {
 			view.dialog(labels.getString(PERSISTENCE_FILE_COULD_NOT_WRITE));
 		}
