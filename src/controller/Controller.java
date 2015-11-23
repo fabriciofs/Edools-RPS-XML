@@ -180,8 +180,9 @@ public class Controller {
 
 				RPS rps = new RPS();
 
-				rps.setId("rps" + i+1 + "serie" + configFile.getProperty(CONFIG_SERIE) + configFile.getProperty(CONFIG_TIPO));
-				rps.setNumero(Integer.toString(i+1));
+				int numero = i + 1;
+				rps.setId("rps" + numero + "serie" + configFile.getProperty(CONFIG_SERIE) + configFile.getProperty(CONFIG_TIPO));
+				rps.setNumero(Integer.toString(numero));
 				rps.setSerie(configFile.getProperty(CONFIG_SERIE));
 				rps.setTipo(configFile.getProperty(CONFIG_TIPO));
 				rps.setDataEmissao(new DateTime(payment.updated_at).toString(dtf));
@@ -189,6 +190,9 @@ public class Controller {
 				rps.setOptanteSimplesNacional(configFile.getProperty(CONFIG_OPTANTE_SIMPLES_NACIONAL));
 				rps.setIncentivadorCultural(configFile.getProperty(CONFIG_INCENTIVADOR_CULTURAL));
 				rps.setStatus(configFile.getProperty(CONFIG_STATUS));
+				String valorServicosOriginal = Long.toString(item.amount_to_pay);
+				String valorServicos = valorServicosOriginal.substring(0, valorServicosOriginal.length()-2) + "." + valorServicosOriginal.substring(valorServicosOriginal.length()-2);
+				rps.setValorServicos(valorServicos);
 
 				rps.setItemListaServico(Long.toString(item.id));
 
