@@ -89,9 +89,6 @@ public class Controller {
 
 		persistence = new Persistence(PERSISTENCE_FILE_PATH);
 
-		timer = new Timer(false);
-		timer.schedule(new checkPaymentsTask(), Long.parseLong(configFile.getProperty(CONFIG_CHECK_INTERVAL)) * MILLI_TO_SECONDS_MULTIPLIER);
-
 		view.showMainView();
 		startTimer();
 
@@ -115,9 +112,11 @@ public class Controller {
 
 	public void startTimer() {
 
-		timer.cancel();
+		if(timer != null) {
+			timer.cancel();
+		}
 		timer = new Timer(false);
-		timer.schedule(new checkPaymentsTask(), Long.parseLong(configFile.getProperty(CONFIG_CHECK_INTERVAL)) * MILLI_TO_SECONDS_MULTIPLIER);
+		timer.scheduleAtFixedRate(new checkPaymentsTask(), 0, Long.parseLong(configFile.getProperty(CONFIG_CHECK_INTERVAL)) * MILLI_TO_SECONDS_MULTIPLIER);
 
 	}
 
