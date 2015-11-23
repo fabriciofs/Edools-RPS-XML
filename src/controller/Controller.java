@@ -36,6 +36,12 @@ public class Controller {
 	private static final String CONFIG_CHECK_INTERVAL = "checkInterval";
 	private static final String CONFIG_CNPJ = "cnpj";
 	private static final String CONFIG_INSCRICAO_MUNICIPAL= "inscricaoMunicipal";
+	private static final String CONFIG_SERIE = "serie";
+	private static final String CONFIG_TIPO = "tipo";
+	private static final String CONFIG_NATUREZA_OPERACAO = "naturezaOperacao";
+	private static final String CONFIG_OPTANTE_SIMPLES_NACIONAL = "optanteSimplesNacional";
+	private static final String CONFIG_INCENTIVADOR_CULTURAL = "incentivadorCultural";
+	private static final String CONFIG_STATUS = "status";
 
 	//Strings
 	private static final String CONFIG_FILE_NOT_FOUND = "configFileNotFound";
@@ -50,7 +56,7 @@ public class Controller {
 	//Patterns
 	private static final String EDOOLS_API_DATE_PATTERN = "yyyy-MM-dd'T'HH:mm:ss";
 	private static final String RPSBULK_ID_DATE_PATTERN = "HHmmssddMMyyyy";
-	private static final String XML_DATE_PATTERN = "dd-MM-yyyy-HH-mm-ss";
+	private static final String XML_FILE_NAME_DATE_PATTERN = "dd-MM-yyyy-HH-mm-ss";
 
 	//Constants
 	private static final long MILLI_TO_SECONDS_MULTIPLIER = 1000;
@@ -169,13 +175,28 @@ public class Controller {
 		for(Payment payment : payments) {
 
 			Item[] items = payment.order.items;
-			for(Item item : items) {
+			for(int i=0; i < items.length; i++) {
+				Item item = items[i];
 
 				RPS rps = new RPS();
-				rps.setRazaoSocial(payment.customer.first_name + payment.customer.last_name);
-				rps.setEmail(payment.customer.email);
-				rps.setDiscriminacao(item.product.description);
+
+				rps.setId("rps" + i+1 + "serie" + configFile.getProperty(CONFIG_SERIE) + configFile.getProperty(CONFIG_TIPO));
+				rps.setNumero(Integer.toString(i+1));
+				rps.setSerie(configFile.getProperty(CONFIG_SERIE));
+				rps.setTipo(configFile.getProperty(CONFIG_TIPO));
+				rps.setDataEmissao(new DateTime(payment.updated_at).toString(dtf));
+				rps.setNaturezaOperacao(configFile.getProperty(CONFIG_NATUREZA_OPERACAO));
+				rps.setOptanteSimplesNacional(configFile.getProperty(CONFIG_OPTANTE_SIMPLES_NACIONAL));
+				rps.setIncentivadorCultural(configFile.getProperty(CONFIG_INCENTIVADOR_CULTURAL));
+				rps.setStatus(configFile.getProperty(CONFIG_STATUS));
+
 				rps.setItemListaServico(Long.toString(item.id));
+
+				rps.setDiscriminacao(item.product.description);
+
+				rps.setRazaoSocial(payment.customer.first_name + payment.customer.last_name);
+
+				rps.setEmail(payment.customer.email);
 
 				//TODO: Populate the remaining RPS values.
 
@@ -193,7 +214,7 @@ public class Controller {
 		rpsBulk.setInscricaoMunicipal(configFile.getProperty(CONFIG_INSCRICAO_MUNICIPAL));
 		rpsBulk.setListaRps(rpsList);
 
-		XMLWriter.generateXML(rpsBulk, XML_FILE_PATH + dateTime.withZone(DateTimeZone.UTC).toString(XML_DATE_PATTERN));
+		XMLWriter.generateXML(rpsBulk, XML_FILE_PATH + dateTime.withZone(DateTimeZone.UTC).toString(XML_FILE_NAME_DATE_PATTERN));
 
 		try {
 			persistence.persist(currentDate);
