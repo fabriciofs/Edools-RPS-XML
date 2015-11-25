@@ -33,10 +33,16 @@ public class Edools {
 	private static final String PARAM_STATUS = "status";
 	private static final String RESULT_PAYMENTS = "payments";
 
-	private String token;
+	//CUSTOMERS
+	private static final String CUSTOMERS = "customers/";
+	private static final String PARAM_SCHOOL_GUID = "school_guid";
 
-	public Edools(String token) {
+	private String token;
+	private String schoolGuid;
+
+	public Edools(String token, String schoolGuid) {
 		this.token = token;
+		this.schoolGuid = schoolGuid;
 	}
 
 	/**
@@ -44,7 +50,7 @@ public class Edools {
 	 * @param id A product ID.
 	 * @return A Product.
 	 */
-	public Product getProduct(long id) {
+	public Product getProduct(String id) {
 		HttpResponse<JsonNode> response;
 		try {
 			response = Unirest.get(EDOOLS_CORE_API + SCHOOL_PRODUCTS + id)
@@ -90,5 +96,23 @@ public class Edools {
 		return Arrays.asList(gResponse.fromJson(payments.toString(), Payment[].class));
 	}
 
-	//TODO: getCustomer method, by guid.
+	/**
+	 * Gets a customer with a certain GUID.
+	 * @param guid A customer GUID.
+	 * @return A Customer.
+	 */
+	public Customer getCustomer(String guid) {
+		HttpResponse<JsonNode> response;
+		try {
+			response = Unirest.get(EDOOLS_ECOMMERCE_API + CUSTOMERS + guid + "?" + "=" + schoolGuid)
+					.header(HttpHeaders.AUTHORIZATION, "Token token=" + token)
+					.header(HttpHeaders.ACCEPT, "application/vnd.edools.core.v1+json")
+					.asJson();
+		} catch (UnirestException e) {
+			return null;
+		}
+
+		Gson gResponse = new Gson();
+		return gResponse.fromJson(response.getBody().toString(), Customer.class);
+	}
 }

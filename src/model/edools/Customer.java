@@ -5,9 +5,10 @@ package model.edools;
  */
 public class Customer {
 
+	public String guid;
 	public String first_name;
 	public String last_name;
-	public String guid;
 	public String email;
+	public String cpf;
 
 }

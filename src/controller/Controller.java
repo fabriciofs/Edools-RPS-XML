@@ -32,6 +32,7 @@ public class Controller {
 
 	//Config properties
 	private static final String PROPERTY_EDOOLS_TOKEN = "edoolsToken";
+	private static final String PROPERTY_SCHOOL_GUID = "schoolGuid";
 	private static final String PROPERTY_EDOOLS_STATUS = "edoolsStatus";
 	private static final String CONFIG_CHECK_INTERVAL = "checkInterval";
 	private static final String CONFIG_CNPJ = "cnpj";
@@ -54,6 +55,8 @@ public class Controller {
 	private static final String CONFIG_ALIQUOTA = "aliquota";
 	private static final String CONFIG_DESCONTO_INCONDICIONADO = "descontoIncondicionado";
 	private static final String CONFIG_DESCONTO_CONDICIONADO = "descontoCondicionado";
+	private static final String CONFIG_CODIGO_TRIBUTACAO_MUNICIPIO = "codigoTributacaoMunicipio";
+	private static final String CONFIG_SERVICO_CODIGO_MUNICIPIO = "servicoCodigoMunicipio";
 
 	//Strings
 	private static final String CONFIG_FILE_NOT_FOUND = "configFileNotFound";
@@ -165,7 +168,7 @@ public class Controller {
 			return false;
 		}
 
-		Edools edools = new Edools(configFile.getProperty(PROPERTY_EDOOLS_TOKEN));
+		Edools edools = new Edools(configFile.getProperty(PROPERTY_EDOOLS_TOKEN), configFile.getProperty(PROPERTY_SCHOOL_GUID));
 		DateTimeFormatter dtf = DateTimeFormat.forPattern(EDOOLS_API_DATE_PATTERN);
 		return !edools.getPayments(dateTime.toString(dtf), configFile.getProperty(PROPERTY_EDOOLS_STATUS)).isEmpty();
 
@@ -178,7 +181,7 @@ public class Controller {
 			return;
 		}
 
-		Edools edools = new Edools(configFile.getProperty(PROPERTY_EDOOLS_TOKEN));
+		Edools edools = new Edools(configFile.getProperty(PROPERTY_EDOOLS_TOKEN), configFile.getProperty(PROPERTY_SCHOOL_GUID));
 		DateTimeFormatter dtf = DateTimeFormat.forPattern(EDOOLS_API_DATE_PATTERN);
 		List<Payment> payments = edools.getPayments(dateTime.toString(dtf), configFile.getProperty(PROPERTY_EDOOLS_STATUS));
 
@@ -217,15 +220,21 @@ public class Controller {
 				rps.setDescontoIncondicionado(getValorString(Double.parseDouble(configFile.getProperty(CONFIG_DESCONTO_INCONDICIONADO))*item.amount_to_pay));
 				rps.setDescontoCondicionado(getValorString(Double.parseDouble(configFile.getProperty(CONFIG_DESCONTO_CONDICIONADO))*item.amount_to_pay));
 				rps.setItemListaServico(Long.toString(item.id));
-
-				rps.setDiscriminacao(item.product.description);
-
+				rps.setCodigoTributacaoMunicipio(configFile.getProperty(CONFIG_CODIGO_TRIBUTACAO_MUNICIPIO));
+				rps.setDiscriminacao(item.product.name);
+				rps.setServicos_codigoMunicipio(configFile.getProperty(CONFIG_SERVICO_CODIGO_MUNICIPIO));
+				rps.setPrestador_cnpj(configFile.getProperty(CONFIG_CNPJ));
+				rps.setInscricaoMunicipal(configFile.getProperty(CONFIG_INSCRICAO_MUNICIPAL));
+				rps.setTomador_cpf(payment.customer.cpf);
 				rps.setRazaoSocial(payment.customer.first_name + payment.customer.last_name);
-
+				rps.setEndereco("");
+				rps.setNumero("");
+				rps.setComplemento("");
+				rps.setBairro("");
+				rps.setEndereco_codigoMunicipio("");
+				rps.setUf("");
+				rps.setCep("");
 				rps.setEmail(payment.customer.email);
-
-				//TODO: Populate the remaining RPS values.
-
 			}
 		}
 
