@@ -19,6 +19,7 @@ public class RPS {
 	String valorPis;
 	String valorCofins;
 	String valorInss;
+	String valorIr;
 	String valorCsll;
 	String issRetido;
 	String valorIss;
@@ -154,6 +155,14 @@ public class RPS {
 
 	public void setValorInss(String valorInss) {
 		this.valorInss = valorInss;
+	}
+
+	public String getValorIr() {
+		return valorIr;
+	}
+
+	public void setValorIr(String valorIr) {
+		this.valorIr = valorIr;
 	}
 
 	public String getValorCsll() {

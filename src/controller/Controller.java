@@ -42,6 +42,18 @@ public class Controller {
 	private static final String CONFIG_OPTANTE_SIMPLES_NACIONAL = "optanteSimplesNacional";
 	private static final String CONFIG_INCENTIVADOR_CULTURAL = "incentivadorCultural";
 	private static final String CONFIG_STATUS = "status";
+	private static final String CONFIG_DEDUCOES = "deducoes";
+	private static final String CONFIG_PIS = "pis";
+	private static final String CONFIG_COFINS = "cofins";
+	private static final String CONFIG_INSS = "inss";
+	private static final String CONFIG_IR = "ir";
+	private static final String CONFIG_CSLL = "csll";
+	private static final String CONFIG_ISS_RETIDO = "issRetido";
+	private static final String CONFIG_ISS = "iss";
+	private static final String CONFIG_OUTRAS_RETENCOES = "outrasRetencoes";
+	private static final String CONFIG_ALIQUOTA = "aliquota";
+	private static final String CONFIG_DESCONTO_INCONDICIONADO = "descontoIncondicionado";
+	private static final String CONFIG_DESCONTO_CONDICIONADO = "descontoCondicionado";
 
 	//Strings
 	private static final String CONFIG_FILE_NOT_FOUND = "configFileNotFound";
@@ -190,10 +202,20 @@ public class Controller {
 				rps.setOptanteSimplesNacional(configFile.getProperty(CONFIG_OPTANTE_SIMPLES_NACIONAL));
 				rps.setIncentivadorCultural(configFile.getProperty(CONFIG_INCENTIVADOR_CULTURAL));
 				rps.setStatus(configFile.getProperty(CONFIG_STATUS));
-				String valorServicosOriginal = Long.toString(item.amount_to_pay);
-				String valorServicos = valorServicosOriginal.substring(0, valorServicosOriginal.length()-2) + "." + valorServicosOriginal.substring(valorServicosOriginal.length()-2);
+				String valorServicos = getValorString((double)item.amount_to_pay);
 				rps.setValorServicos(valorServicos);
-
+				rps.setValorDeducoes(getValorString(Double.parseDouble(configFile.getProperty(CONFIG_DEDUCOES))*item.amount_to_pay));
+				rps.setValorPis(getValorString(Double.parseDouble(configFile.getProperty(CONFIG_PIS))*item.amount_to_pay));
+				rps.setValorCofins(getValorString(Double.parseDouble(configFile.getProperty(CONFIG_COFINS))*item.amount_to_pay));
+				rps.setValorInss(getValorString(Double.parseDouble(configFile.getProperty(CONFIG_INSS))*item.amount_to_pay));
+				rps.setValorIr(getValorString(Double.parseDouble(configFile.getProperty(CONFIG_IR))*item.amount_to_pay));
+				rps.setValorCsll(getValorString(Double.parseDouble(configFile.getProperty(CONFIG_CSLL))*item.amount_to_pay));
+				rps.setIssRetido(configFile.getProperty(CONFIG_ISS_RETIDO));
+				rps.setValorIss(getValorString(Double.parseDouble(configFile.getProperty(CONFIG_ISS))*item.amount_to_pay));
+				rps.setOutrasRetencoes(getValorString(Double.parseDouble(configFile.getProperty(CONFIG_OUTRAS_RETENCOES))*item.amount_to_pay));
+				rps.setAliquota(getValorString(Double.parseDouble(configFile.getProperty(CONFIG_ALIQUOTA))*item.amount_to_pay));
+				rps.setDescontoIncondicionado(getValorString(Double.parseDouble(configFile.getProperty(CONFIG_DESCONTO_INCONDICIONADO))*item.amount_to_pay));
+				rps.setDescontoCondicionado(getValorString(Double.parseDouble(configFile.getProperty(CONFIG_DESCONTO_CONDICIONADO))*item.amount_to_pay));
 				rps.setItemListaServico(Long.toString(item.id));
 
 				rps.setDiscriminacao(item.product.description);
@@ -227,5 +249,16 @@ public class Controller {
 		}
 		startTimer();
 
+	}
+
+	/**
+	 * Converts a monetary value string to the format used in the RPS file.
+	 * @param valor Original monetary value string.
+	 * @return RPS format monetary value string.
+	 */
+	private String getValorString(Double valor) {
+		String valorStr = Double.toString(valor);
+		valorStr = valorStr.replace(".", "");
+		return valorStr.substring(0, valorStr.length()-2) + "." + valorStr.substring(valorStr.length()-2);
 	}
 }
