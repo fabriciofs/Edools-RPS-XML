@@ -5,12 +5,8 @@ package model.edools;
  */
 public class Product {
 
-	public long id;
 	public String name; //Payments response only
 	public String title;
-	public String subtitle;
-	public String description;
 	public String created_at;
-	public String updated_at;
 
 }
