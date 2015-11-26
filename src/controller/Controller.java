@@ -67,6 +67,7 @@ public class Controller {
 	private static final String CHECKING_NEW_PAYMENTS = "checkingNewPayments";
 	private static final String NEW_PAYMENTS_FOUND = "newPaymentsFound";
 	private static final String SHOULD_GENERATE_XML = "shouldGenerateXml";
+	private static final String XML_FILE_COULD_NOT_WRITE = "xmlFileCouldNotWrite";
 
 	//Patterns
 	private static final String EDOOLS_API_DATE_PATTERN = "yyyy-MM-dd'T'HH:mm:ss";
@@ -249,13 +250,17 @@ public class Controller {
 		rpsBulk.setInscricaoMunicipal(configFile.getProperty(CONFIG_INSCRICAO_MUNICIPAL));
 		rpsBulk.setListaRps(rpsList);
 
-		XMLWriter.generateXML(rpsBulk, XML_FILE_PATH + dateTime.withZone(DateTimeZone.UTC).toString(XML_FILE_NAME_DATE_PATTERN));
-
 		try {
-			persistence.persist(currentDate);
+			XMLWriter.generateXML(rpsBulk, XML_FILE_PATH + dateTime.withZone(DateTimeZone.UTC).toString(XML_FILE_NAME_DATE_PATTERN));
+			try {
+				persistence.persist(currentDate);
+			} catch (IOException e) {
+				view.dialog(labels.getString(PERSISTENCE_FILE_COULD_NOT_WRITE));
+			}
 		} catch (IOException e) {
-			view.dialog(labels.getString(PERSISTENCE_FILE_COULD_NOT_WRITE));
+			view.dialog(labels.getString(XML_FILE_COULD_NOT_WRITE));
 		}
+
 		startTimer();
 
 	}
