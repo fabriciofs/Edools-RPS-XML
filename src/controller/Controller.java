@@ -236,6 +236,8 @@ public class Controller {
 				rps.setUf("");
 				rps.setCep("");
 				rps.setEmail(payment.customer.email);
+
+				rpsList.add(rps);
 			}
 		}
 

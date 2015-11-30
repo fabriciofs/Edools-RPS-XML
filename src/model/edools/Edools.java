@@ -104,7 +104,7 @@ public class Edools {
 	public Customer getCustomer(String guid) {
 		HttpResponse<JsonNode> response;
 		try {
-			response = Unirest.get(EDOOLS_ECOMMERCE_API + CUSTOMERS + guid + "?" + "=" + schoolGuid)
+			response = Unirest.get(EDOOLS_ECOMMERCE_API + CUSTOMERS + guid + "?" + PARAM_SCHOOL_GUID + "=" + schoolGuid)
 					.header(HttpHeaders.AUTHORIZATION, "Token token=" + token)
 					.header(HttpHeaders.ACCEPT, "application/vnd.edools.core.v1+json")
 					.asJson();
