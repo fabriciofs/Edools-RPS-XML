@@ -1,6 +1,7 @@
 package controller;
 
 import model.*;
+import model.edools.Customer;
 import model.edools.Edools;
 import model.edools.Item;
 import model.edools.Payment;
@@ -206,8 +207,7 @@ public class Controller {
 				rps.setOptanteSimplesNacional(configFile.getProperty(CONFIG_OPTANTE_SIMPLES_NACIONAL));
 				rps.setIncentivadorCultural(configFile.getProperty(CONFIG_INCENTIVADOR_CULTURAL));
 				rps.setStatus(configFile.getProperty(CONFIG_STATUS));
-				String valorServicos = getValorString((double)item.amount_to_pay);
-				rps.setValorServicos(valorServicos);
+				rps.setValorServicos(getValorString((double)item.amount_to_pay));
 				rps.setValorDeducoes(getValorString(Double.parseDouble(configFile.getProperty(CONFIG_DEDUCOES))*item.amount_to_pay));
 				rps.setValorPis(getValorString(Double.parseDouble(configFile.getProperty(CONFIG_PIS))*item.amount_to_pay));
 				rps.setValorCofins(getValorString(Double.parseDouble(configFile.getProperty(CONFIG_COFINS))*item.amount_to_pay));
@@ -226,8 +226,9 @@ public class Controller {
 				rps.setServicos_codigoMunicipio(configFile.getProperty(CONFIG_SERVICO_CODIGO_MUNICIPIO));
 				rps.setPrestador_cnpj(configFile.getProperty(CONFIG_CNPJ));
 				rps.setInscricaoMunicipal(configFile.getProperty(CONFIG_INSCRICAO_MUNICIPAL));
-				rps.setTomador_cpf(payment.customer.cpf);
-				rps.setRazaoSocial(payment.customer.first_name + payment.customer.last_name);
+				Customer customer = edools.getCustomer(payment.customer.guid);
+				rps.setTomador_cpf(customer.cpf);
+				rps.setRazaoSocial(payment.customer.first_name + " " + payment.customer.last_name);
 				rps.setEndereco("");
 				rps.setEndereco_numero("");
 				rps.setComplemento("");
@@ -273,8 +274,6 @@ public class Controller {
 	 * @return RPS format monetary value string.
 	 */
 	private String getValorString(Double valor) {
-		String valorStr = Double.toString(valor);
-		valorStr = valorStr.replace(".", "");
-		return valorStr.substring(0, valorStr.length()-2) + "." + valorStr.substring(valorStr.length()-2);
+		return String.format(Locale.ENGLISH, "%.2f", valor);
 	}
 }
