@@ -188,17 +188,17 @@ public class Controller {
 
 		List<RPS> rpsList = new ArrayList<RPS>();
 
+		int j = 0;
 		for(Payment payment : payments) {
-
 			Item[] items = payment.order.items;
 			for(int i=0; i < items.length; i++) {
+				j++;
 				Item item = items[i];
 
 				RPS rps = new RPS();
 
-				int numero = i + 1;
-				rps.setId("rps" + numero + "serie" + configFile.getProperty(CONFIG_SERIE) + configFile.getProperty(CONFIG_TIPO));
-				rps.setNumero(Integer.toString(numero));
+				rps.setId("rps" + j + "serie" + configFile.getProperty(CONFIG_SERIE) + configFile.getProperty(CONFIG_TIPO));
+				rps.setNumero(Integer.toString(j));
 				rps.setSerie(configFile.getProperty(CONFIG_SERIE));
 				rps.setTipo(configFile.getProperty(CONFIG_TIPO));
 				rps.setDataEmissao(new DateTime(payment.updated_at).toString(dtf));
@@ -229,7 +229,7 @@ public class Controller {
 				rps.setTomador_cpf(payment.customer.cpf);
 				rps.setRazaoSocial(payment.customer.first_name + payment.customer.last_name);
 				rps.setEndereco("");
-				rps.setNumero("");
+				rps.setEndereco_numero("");
 				rps.setComplemento("");
 				rps.setBairro("");
 				rps.setEndereco_codigoMunicipio("");
