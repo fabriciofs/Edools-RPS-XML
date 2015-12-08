@@ -9,12 +9,15 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import view.ConsoleView;
 import view.TaskbarView;
 import view.View;
 
+import java.awt.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
+import java.util.List;
 
 /**
  * Created by Vitor on 05/11/2015.
@@ -94,14 +97,16 @@ public class Controller {
 	private Persistence persistence;
 	private Timer timer;
 
-	public String getLabel(String key) {
-		return labels.getString(key);
-	}
-
 	public void start() {
 		labels = ResourceBundle.getBundle(RESOURCE_BUNDLE_NAME, new Locale(LANGUAGE_CODE, COUNTRY_CODE));
 
-		view = new TaskbarView(this, labels.getString(YES), labels.getString(NO), ICON_PATH);
+		//Check the SystemTray is supported
+		if (SystemTray.isSupported()) {
+			view = new TaskbarView(this, labels.getString(YES), labels.getString(NO), ICON_PATH);
+		}
+		else {
+			view = new ConsoleView(labels.getString(WELCOME_STRING), labels.getString(YES), labels.getString(NO), labels.getString(YES_CHAR), labels.getString(NO_CHAR));
+		}
 
 		try {
 			configFile = new ConfigFile(CONFIG_FILE_PATH);
