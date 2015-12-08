@@ -1,25 +1,41 @@
 package view;
 
-import controller.Controller;
+import javax.swing.*;
 
 /**
  * Created by Vitor on 05/11/2015.
  */
 public class TaskbarView implements View {
 
-	private final Controller controller;
+	private final String yesText;
+	private final String noText;
 
-	public TaskbarView(Controller controller) {
-		this.controller = controller;
+	private JFrame frame; //TODO: Initialize this frame.
+
+	public TaskbarView(String yesText, String noText) {
+		this.yesText = yesText;
+		this.noText = noText;
 	}
 
-	@Override public void dialog(String text) {
-		//TODO: Implement simple text dialog.
+	@Override
+	public void dialog(String title, String text) {
+		Object[] options = {
+			yesText,
+			noText
+		};
+		int n = JOptionPane.showOptionDialog(
+				frame,
+				text,
+				title,
+				JOptionPane.YES_NO_OPTION,
+				JOptionPane.QUESTION_MESSAGE,
+				null,     //do not use a custom Icon
+				options,  //the titles of buttons
+				options[0]); //default button title
 	}
 
 	@Override
 	public void showMainView() {
-		controller.startTimer();
 
 		//TODO: Implement main view.
 

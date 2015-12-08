@@ -60,15 +60,22 @@ public class Controller {
 	private static final String CONFIG_SERVICO_CODIGO_MUNICIPIO = "servicoCodigoMunicipio";
 
 	//Strings
+	private static final String ERROR_TITLE = "errorTitle";
 	private static final String CONFIG_FILE_NOT_FOUND = "configFileNotFound";
 	private static final String CONFIG_READ_FAILURE = "configReadFailure";
 	private static final String CHECK_INTERVAL_NOT_FOUND = "checkIntervalNotFound";
 	private static final String PERSISTENCE_FILE_COULD_NOT_READ = "persistenceFileCouldNotRead";
 	private static final String PERSISTENCE_FILE_COULD_NOT_WRITE = "persistenceFileCouldNotWrite";
+	private static final String ALERT_TITLE = "alertTitle";
 	private static final String CHECKING_NEW_PAYMENTS = "checkingNewPayments";
 	private static final String NEW_PAYMENTS_FOUND = "newPaymentsFound";
 	private static final String SHOULD_GENERATE_XML = "shouldGenerateXml";
 	private static final String XML_FILE_COULD_NOT_WRITE = "xmlFileCouldNotWrite";
+	private static final String WELCOME_STRING = "welcomeString";
+	private static final String YES_CHAR = "yesChar";
+	private static final String NO_CHAR = "noChar";
+	private static final String YES = "yes";
+	private static final String NO = "no";
 
 	//Patterns
 	private static final String EDOOLS_API_DATE_PATTERN = "yyyy-MM-dd'T'HH:mm:ss";
@@ -92,21 +99,21 @@ public class Controller {
 	public void start() {
 		labels = ResourceBundle.getBundle(RESOURCE_BUNDLE_NAME, new Locale(LANGUAGE_CODE, COUNTRY_CODE));
 
-		view = new ConsoleView(this);
+		view = new ConsoleView(labels.getString(WELCOME_STRING), labels.getString(YES), labels.getString(NO), labels.getString(YES_CHAR), labels.getString(NO_CHAR));
 
 		try {
 			configFile = new ConfigFile(CONFIG_FILE_PATH);
 		} catch (FileNotFoundException e) {
-			view.dialog(labels.getString(CONFIG_FILE_NOT_FOUND));
+			view.dialog(labels.getString(ERROR_TITLE), labels.getString(CONFIG_FILE_NOT_FOUND));
 			ConfigFile.createDefaultConfigFile(CONFIG_FILE_PATH);
 			return;
 		} catch (IOException e) {
-			view.dialog(labels.getString(CONFIG_READ_FAILURE));
+			view.dialog(labels.getString(ERROR_TITLE), labels.getString(CONFIG_READ_FAILURE));
 			return;
 		}
 
 		if(configFile.getProperty(CONFIG_CHECK_INTERVAL) == null) {
-			view.dialog(labels.getString(CHECK_INTERVAL_NOT_FOUND));
+			view.dialog(labels.getString(ERROR_TITLE), labels.getString(CHECK_INTERVAL_NOT_FOUND));
 			return;
 		}
 
@@ -121,11 +128,11 @@ public class Controller {
 
 		@Override
 		public void run() {
-			view.dialog(labels.getString(CHECKING_NEW_PAYMENTS));
+			view.dialog(labels.getString(ALERT_TITLE), labels.getString(CHECKING_NEW_PAYMENTS));
 			if(checkNewPayments()) {
 				stopTimer();
 
-				view.dialog(labels.getString(NEW_PAYMENTS_FOUND));
+				view.dialog(labels.getString(ALERT_TITLE), labels.getString(NEW_PAYMENTS_FOUND));
 				if(view.booleanInput(labels.getString(SHOULD_GENERATE_XML))) {
 					generateXML();
 				}
@@ -156,7 +163,7 @@ public class Controller {
 			dateTime = persistence.getDate();
 		} catch (IOException e) {
 			stopTimer();
-			view.dialog(labels.getString(PERSISTENCE_FILE_COULD_NOT_READ));
+			view.dialog(labels.getString(ERROR_TITLE), labels.getString(PERSISTENCE_FILE_COULD_NOT_READ));
 			startTimer();
 			return null;
 		}
@@ -258,10 +265,10 @@ public class Controller {
 			try {
 				persistence.persist(currentDate);
 			} catch (IOException e) {
-				view.dialog(labels.getString(PERSISTENCE_FILE_COULD_NOT_WRITE));
+				view.dialog(labels.getString(ERROR_TITLE), labels.getString(PERSISTENCE_FILE_COULD_NOT_WRITE));
 			}
 		} catch (IOException e) {
-			view.dialog(labels.getString(XML_FILE_COULD_NOT_WRITE));
+			view.dialog(labels.getString(ERROR_TITLE), labels.getString(XML_FILE_COULD_NOT_WRITE));
 		}
 
 		startTimer();

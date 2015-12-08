@@ -7,9 +7,10 @@ public interface View {
 
 	/**
 	 * Displays a simple dialog with text and an OK button.
+	 * @param title Title of the dialog.
 	 * @param text Text to be displayed in the dialog.
 	 */
-	void dialog(String text);
+	void dialog(String title, String text);
 
 	/**
 	 * Displays the main view.
