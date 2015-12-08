@@ -32,7 +32,7 @@ public class Controller {
 	//File paths
 	private static final String CONFIG_FILE_PATH = "./config.properties";
 	private static final String PERSISTENCE_FILE_PATH = "./persistence.txt";
-	private static final String ICON_PATH = "./icon.png";
+	private static final String ICON_FILE_PATH = "./resources/icon.png";
 	private static final String XML_FILE_PATH = "./";
 
 	//Config properties
@@ -81,6 +81,10 @@ public class Controller {
 	private static final String NO_CHAR = "noChar";
 	private static final String YES = "yes";
 	private static final String NO = "no";
+	private static final String ABOUT = "about";
+	private static final String VERIFY_NOW = "verifyNow";
+	private static final String VERIFY = "verify";
+	private static final String EXIT = "exit";
 
 	//Patterns
 	private static final String EDOOLS_API_DATE_PATTERN = "yyyy-MM-dd'T'HH:mm:ss";
@@ -102,7 +106,7 @@ public class Controller {
 
 		//Check the SystemTray is supported
 		if (SystemTray.isSupported()) {
-			view = new TaskbarView(this, labels.getString(YES), labels.getString(NO), ICON_PATH);
+			view = new TaskbarView(this, labels.getString(WELCOME_STRING), labels.getString(YES), labels.getString(NO), ICON_FILE_PATH, labels.getString(ABOUT), labels.getString(VERIFY_NOW), labels.getString(VERIFY), labels.getString(EXIT));
 		}
 		else {
 			view = new ConsoleView(labels.getString(WELCOME_STRING), labels.getString(YES), labels.getString(NO), labels.getString(YES_CHAR), labels.getString(NO_CHAR));

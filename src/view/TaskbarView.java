@@ -2,10 +2,14 @@ package view;
 
 import controller.Controller;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Created by Vitor on 05/11/2015.
@@ -14,35 +18,47 @@ public class TaskbarView implements View, ActionListener {
 
 	private final Controller controller;
 
+	private final String tooltipTitle;
 	private final String yesText;
 	private final String noText;
+
+	private final String about;
+	private final String verifyNow;
+	private final String verify;
+	private final String exit;
 
 	private final PopupMenu popup;
 	private final TrayIcon trayIcon;
 	private final SystemTray tray;
 
-
 	private MenuItem aboutItem;
-	private CheckboxMenuItem cb1;
-	private CheckboxMenuItem cb2;
-	private Menu displayMenu;
-	private MenuItem errorItem;
-	private MenuItem warningItem;
-	private MenuItem infoItem;
-	private MenuItem noneItem;
+	private MenuItem verifyItem;
+	private CheckboxMenuItem verifyCheckBox;
 	private MenuItem exitItem;
 
-	public TaskbarView(Controller controller, String yesText, String noText, String iconPath) {
+	public TaskbarView(Controller controller, String tooltipTitle, String yesText, String noText, String iconFilePath, String about, String verifyNow, String verify, String exit) {
 		this.controller = controller;
+		this.tooltipTitle = tooltipTitle;
 		this.yesText = yesText;
 		this.noText = noText;
+		this.about = about;
+		this.verifyNow = verifyNow;
+		this.verify = verify;
+		this.exit = exit;
 
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception e) {}
 
 		popup = new PopupMenu();
-		trayIcon = new TrayIcon(Toolkit.getDefaultToolkit().getImage(iconPath));
+		BufferedImage img = null;
+		try {
+			img = ImageIO.read(new File(iconFilePath));
+		} catch (IOException e) {
+			System.exit(1);
+		}
+		trayIcon = new TrayIcon(img, tooltipTitle);
+		trayIcon.setImageAutoSize(true);
 		tray = SystemTray.getSystemTray();
 	}
 
@@ -57,30 +73,21 @@ public class TaskbarView implements View, ActionListener {
 	public void showMainView() {
 
 		// Create a pop-up menu components
-		aboutItem = new MenuItem("About");
-		cb1 = new CheckboxMenuItem("Set auto size");
-		cb2 = new CheckboxMenuItem("Set tooltip");
-		displayMenu = new Menu("Display");
-		errorItem = new MenuItem("Error");
-		warningItem = new MenuItem("Warning");
-		infoItem = new MenuItem("Info");
-		noneItem = new MenuItem("None");
-		exitItem = new MenuItem("Exit");
+		verifyItem = new MenuItem(verifyNow);
+		verifyCheckBox = new CheckboxMenuItem(verify);
+		verifyCheckBox.setState(true);
+		aboutItem = new MenuItem(about);
+		exitItem = new MenuItem(exit);
 
 		//Add listeners to components
 		exitItem.addActionListener(this);
 
 		//Add components to pop-up menu
+		popup.add(verifyItem);
+		popup.add(verifyCheckBox);
+		popup.addSeparator();
 		popup.add(aboutItem);
 		popup.addSeparator();
-		popup.add(cb1);
-		popup.add(cb2);
-		popup.addSeparator();
-		popup.add(displayMenu);
-		displayMenu.add(errorItem);
-		displayMenu.add(warningItem);
-		displayMenu.add(infoItem);
-		displayMenu.add(noneItem);
 		popup.add(exitItem);
 
 		trayIcon.setPopupMenu(popup);
