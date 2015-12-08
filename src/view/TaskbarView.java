@@ -80,6 +80,9 @@ public class TaskbarView implements View, ActionListener {
 		exitItem = new MenuItem(exit);
 
 		//Add listeners to components
+		verifyItem.addActionListener(this);
+		verifyCheckBox.addActionListener(this);
+		aboutItem.addActionListener(this);
 		exitItem.addActionListener(this);
 
 		//Add components to pop-up menu
@@ -129,5 +132,6 @@ public class TaskbarView implements View, ActionListener {
 			tray.remove(trayIcon);
 			controller.quit();
 		}
+		//TODO: Implement remaining TaskbarView functionality.
 	}
 }
