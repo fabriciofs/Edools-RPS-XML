@@ -20,12 +20,12 @@ public class ConsoleView implements View {
 		this.welcome = welcome;
 		this.yesText = yesText;
 		this.noText = noText;
-		this.yesChar = yesChar;
-		this.noChar = noChar;
+		this.yesChar = yesChar.toLowerCase();
+		this.noChar = noChar.toLowerCase();
 	}
 	@Override
 	public void dialog(String title, String text) {
-		System.out.println(OUTPUT_MARK + "[" + title + "]" + text);
+		System.out.println(OUTPUT_MARK + "[" + title + "] " + text);
 	}
 
 	@Override
