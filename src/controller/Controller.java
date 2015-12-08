@@ -131,7 +131,7 @@ public class Controller {
 		persistence = new Persistence(PERSISTENCE_FILE_PATH);
 
 		view.showMainView();
-		startTimer();
+		startTimer(0);
 
 	}
 
@@ -147,17 +147,20 @@ public class Controller {
 				if(view.booleanInput(labels.getString(QUESTION_TITLE), labels.getString(SHOULD_GENERATE_XML))) {
 					generateXML();
 				}
+				else {
+					startTimer(Long.parseLong(configFile.getProperty(CONFIG_CHECK_INTERVAL)) * MILLI_TO_SECONDS_MULTIPLIER);
+				}
 			}
 		}
 	}
 
-	public void startTimer() {
+	public void startTimer(long delay) {
 
 		if(timer != null) {
 			timer.cancel();
 		}
 		timer = new Timer(false);
-		timer.scheduleAtFixedRate(new checkPaymentsTask(), 0, Long.parseLong(configFile.getProperty(CONFIG_CHECK_INTERVAL)) * MILLI_TO_SECONDS_MULTIPLIER);
+		timer.scheduleAtFixedRate(new checkPaymentsTask(), delay, Long.parseLong(configFile.getProperty(CONFIG_CHECK_INTERVAL)) * MILLI_TO_SECONDS_MULTIPLIER);
 
 	}
 
@@ -175,7 +178,7 @@ public class Controller {
 		} catch (IOException e) {
 			stopTimer();
 			view.dialog(labels.getString(ERROR_TITLE), labels.getString(PERSISTENCE_FILE_COULD_NOT_READ));
-			startTimer();
+			startTimer(Long.parseLong(configFile.getProperty(CONFIG_CHECK_INTERVAL)) * MILLI_TO_SECONDS_MULTIPLIER);
 			return null;
 		}
 		return dateTime;
@@ -190,7 +193,7 @@ public class Controller {
 
 		Edools edools = new Edools(configFile.getProperty(PROPERTY_EDOOLS_TOKEN), configFile.getProperty(PROPERTY_SCHOOL_GUID));
 		DateTimeFormatter dtf = DateTimeFormat.forPattern(EDOOLS_API_DATE_PATTERN);
-		return !edools.getPayments(dateTime.toString(dtf), configFile.getProperty(PROPERTY_EDOOLS_STATUS)).isEmpty();
+		return edools.checkPayments(dateTime.toString(dtf), configFile.getProperty(PROPERTY_EDOOLS_STATUS));
 
 	}
 
@@ -282,7 +285,7 @@ public class Controller {
 			view.dialog(labels.getString(ERROR_TITLE), labels.getString(XML_FILE_COULD_NOT_WRITE));
 		}
 
-		startTimer();
+		startTimer(Long.parseLong(configFile.getProperty(CONFIG_CHECK_INTERVAL)) * MILLI_TO_SECONDS_MULTIPLIER);
 
 	}
 

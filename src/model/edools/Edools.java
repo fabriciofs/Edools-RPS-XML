@@ -66,6 +66,42 @@ public class Edools {
 	}
 
 	/**
+	 * Checks if there are payments after a certain start date.
+	 * @param startDate A date in the ISO8601 format without timezone. E.g.: "2015-11-04T22:47:10".
+	 * @param status A payment status. E.g.: "authorized, done". Nullable.
+	 * @return True if there are payments, false otherwise.
+	 */
+	public boolean checkPayments(String startDate, String status) {
+		HttpResponse<JsonNode> response;
+		try {
+			GetRequest request;
+			if(status != null) {
+				request = Unirest.get(EDOOLS_ECOMMERCE_API + PAYMENTS + "?" + PARAM_START_DATE + "=" + startDate + "&" + PARAM_STATUS + "=" + status + "&per_page=1");
+			}
+			else {
+				request = Unirest.get(EDOOLS_ECOMMERCE_API + PAYMENTS + "?" + PARAM_START_DATE + "=" + startDate + "&per_page=1");
+			}
+			response = request
+					.header(HttpHeaders.AUTHORIZATION, AUTHORIZATION_STRING + token)
+					.header(HttpHeaders.ACCEPT, ACCEPT_STRING)
+					.asJson();
+		} catch (UnirestException e) {
+			return false;
+		}
+
+		JSONObject responseJSON = new JSONObject(response.getBody().toString());
+		JSONArray payments = responseJSON.getJSONArray(RESULT_PAYMENTS);
+
+		Gson gResponse = new Gson();
+		if(gResponse.fromJson(payments.toString(), Payment[].class).length == 0) {
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+
+	/**
 	 * Gets payments after a certain start date.
 	 * @param startDate A date in the ISO8601 format without timezone. E.g.: "2015-11-04T22:47:10".
 	 * @param status A payment status. E.g.: "authorized, done". Nullable.
@@ -94,6 +130,8 @@ public class Edools {
 
 		Gson gResponse = new Gson();
 		return Arrays.asList(gResponse.fromJson(payments.toString(), Payment[].class));
+
+		//TODO: Check next pages to get all payments.
 	}
 
 	/**
