@@ -143,8 +143,7 @@ public class Controller {
 			if(checkNewPayments()) {
 				stopTimer();
 
-				view.dialog(labels.getString(ALERT_TITLE), labels.getString(NEW_PAYMENTS_FOUND));
-				if(view.booleanInput(labels.getString(QUESTION_TITLE), labels.getString(SHOULD_GENERATE_XML))) {
+				if(view.booleanInput(labels.getString(QUESTION_TITLE), labels.getString(NEW_PAYMENTS_FOUND) + " " + labels.getString(SHOULD_GENERATE_XML))) {
 					generateXML();
 				}
 				else {
