@@ -16,11 +16,11 @@ public class TaskbarView implements View, ActionListener {
 
 	private final String yesText;
 	private final String noText;
-	private final String okText;
 
 	private final PopupMenu popup;
 	private final TrayIcon trayIcon;
 	private final SystemTray tray;
+
 
 	private MenuItem aboutItem;
 	private CheckboxMenuItem cb1;
@@ -32,31 +32,25 @@ public class TaskbarView implements View, ActionListener {
 	private MenuItem noneItem;
 	private MenuItem exitItem;
 
-	public TaskbarView(Controller controller, String yesText, String noText, String okText) {
+	public TaskbarView(Controller controller, String yesText, String noText, String iconPath) {
 		this.controller = controller;
 		this.yesText = yesText;
 		this.noText = noText;
-		this.okText = okText;
+
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (Exception e) {}
 
 		popup = new PopupMenu();
-		trayIcon = new TrayIcon(Toolkit.getDefaultToolkit().getImage("icon.png"));
+		trayIcon = new TrayIcon(Toolkit.getDefaultToolkit().getImage(iconPath));
 		tray = SystemTray.getSystemTray();
 	}
 
 	@Override
 	public void dialog(String title, String text) {
-		Object[] options = {
-			okText
-		};
-		JOptionPane.showOptionDialog(
-				null, //do not use a frame
-				text,
-				title,
-				JOptionPane.OK_OPTION,
-				JOptionPane.INFORMATION_MESSAGE,
-				null, //do not use a custom Icon
-				options, //the titles of buttons
-				options[0]); //default button title
+		if(trayIcon != null) {
+			trayIcon.displayMessage(title, text, TrayIcon.MessageType.INFO);
+		}
 	}
 
 	@Override

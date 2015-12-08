@@ -9,7 +9,7 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import view.ConsoleView;
+import view.TaskbarView;
 import view.View;
 
 import java.io.FileNotFoundException;
@@ -29,6 +29,7 @@ public class Controller {
 	//File paths
 	private static final String CONFIG_FILE_PATH = "./config.properties";
 	private static final String PERSISTENCE_FILE_PATH = "./persistence.txt";
+	private static final String ICON_PATH = "./icon.png";
 	private static final String XML_FILE_PATH = "./";
 
 	//Config properties
@@ -100,7 +101,7 @@ public class Controller {
 	public void start() {
 		labels = ResourceBundle.getBundle(RESOURCE_BUNDLE_NAME, new Locale(LANGUAGE_CODE, COUNTRY_CODE));
 
-		view = new ConsoleView(labels.getString(WELCOME_STRING), labels.getString(YES), labels.getString(NO), labels.getString(YES_CHAR), labels.getString(NO_CHAR));
+		view = new TaskbarView(this, labels.getString(YES), labels.getString(NO), ICON_PATH);
 
 		try {
 			configFile = new ConfigFile(CONFIG_FILE_PATH);
