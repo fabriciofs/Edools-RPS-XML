@@ -69,6 +69,7 @@ public class Controller {
 	private static final String ALERT_TITLE = "alertTitle";
 	private static final String CHECKING_NEW_PAYMENTS = "checkingNewPayments";
 	private static final String NEW_PAYMENTS_FOUND = "newPaymentsFound";
+	private static final String QUESTION_TITLE = "questionTitle";
 	private static final String SHOULD_GENERATE_XML = "shouldGenerateXml";
 	private static final String XML_FILE_COULD_NOT_WRITE = "xmlFileCouldNotWrite";
 	private static final String WELCOME_STRING = "welcomeString";
@@ -133,7 +134,7 @@ public class Controller {
 				stopTimer();
 
 				view.dialog(labels.getString(ALERT_TITLE), labels.getString(NEW_PAYMENTS_FOUND));
-				if(view.booleanInput(labels.getString(SHOULD_GENERATE_XML))) {
+				if(view.booleanInput(labels.getString(QUESTION_TITLE), labels.getString(SHOULD_GENERATE_XML))) {
 					generateXML();
 				}
 			}
@@ -273,6 +274,11 @@ public class Controller {
 
 		startTimer();
 
+	}
+
+	public void quit() {
+		stopTimer();
+		System.exit(0);
 	}
 
 	/**

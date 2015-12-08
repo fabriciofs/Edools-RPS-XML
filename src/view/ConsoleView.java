@@ -34,8 +34,8 @@ public class ConsoleView implements View {
 	}
 
 	@Override
-	public boolean booleanInput(String text) {
-		System.out.println(text + " [" + yesText + "/" + noText + "]");
+	public boolean booleanInput(String title, String text) {
+		System.out.println(OUTPUT_MARK + "[" + title + "] " + text + " [" + yesText + "/" + noText + "]");
 		Scanner keyboard = new Scanner(System.in);
 		while(true) {
 			String input = keyboard.nextLine().toLowerCase().trim();

@@ -19,8 +19,9 @@ public interface View {
 
 	/**
 	 * A boolean input to the user.
-	 * @param text Message to be displayed to the user.
+	 * @param title Title of the dialog.
+	 * @param text Text to be displayed in the dialog.
 	 * @return A boolean result.
 	 */
-	boolean booleanInput(String text);
+	boolean booleanInput(String title, String text);
 }
