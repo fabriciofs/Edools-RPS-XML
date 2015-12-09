@@ -100,7 +100,6 @@ public class Controller {
 	//Constants
 	private static final long MILLI_TO_SECONDS_MULTIPLIER = 1000;
 
-	private boolean isJar;
 	private ResourceBundle labels;
 	private ConfigFile configFile;
 	private View view;

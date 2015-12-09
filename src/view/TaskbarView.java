@@ -36,7 +36,6 @@ public class TaskbarView implements View, ActionListener, ItemListener {
 	private MenuItem exitItem;
 
 	private Image img = null;
-	private AboutFrame aboutFrame;
 
 	private boolean isWaiting = false;
 
@@ -126,12 +125,7 @@ public class TaskbarView implements View, ActionListener, ItemListener {
 				options[0]); //default button title
 		isWaiting = false;
 
-		if(n == JOptionPane.YES_OPTION) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		return n == JOptionPane.YES_OPTION;
 	}
 
 	@Override
@@ -146,7 +140,7 @@ public class TaskbarView implements View, ActionListener, ItemListener {
 			controller.checkPayments();
 		}
 		else if(e.getSource() == aboutItem) {
-			aboutFrame = new AboutFrame(img, aboutText);
+			AboutFrame aboutFrame = new AboutFrame(img, aboutText);
 			aboutFrame.setVisible(true);
 			aboutFrame.setLocationRelativeTo(null);
 		}
