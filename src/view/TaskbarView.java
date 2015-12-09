@@ -18,7 +18,6 @@ public class TaskbarView implements View, ActionListener {
 
 	private final Controller controller;
 
-	private final String tooltipTitle;
 	private final String yesText;
 	private final String noText;
 
@@ -38,7 +37,6 @@ public class TaskbarView implements View, ActionListener {
 
 	public TaskbarView(Controller controller, String tooltipTitle, String yesText, String noText, String iconFilePath, String about, String verifyNow, String verify, String exit) {
 		this.controller = controller;
-		this.tooltipTitle = tooltipTitle;
 		this.yesText = yesText;
 		this.noText = noText;
 		this.about = about;
@@ -128,10 +126,19 @@ public class TaskbarView implements View, ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == exitItem) {
+
+		if(e.getSource() == verifyItem) {
+			//TODO: Implement verify button.
+		}
+		else if(e.getSource() == verifyCheckBox) {
+			//TODO: Implement verify checkbox.
+		}
+		else if(e.getSource() == aboutItem) {
+			//TODO: Implement about screen.
+		}
+		else if(e.getSource() == exitItem) {
 			tray.remove(trayIcon);
 			controller.quit();
 		}
-		//TODO: Implement remaining TaskbarView functionality.
 	}
 }
