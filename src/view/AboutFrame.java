@@ -2,7 +2,6 @@ package view;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
 /**
  * Created by Vitor on 08/12/2015.
@@ -16,7 +15,7 @@ public class AboutFrame extends JFrame {
 	private static final int WIDTH = 300;
 	private static final int HEIGHT = 150;
 
-	public AboutFrame(BufferedImage img, String text) {
+	public AboutFrame(Image img, String text) {
 
 		getContentPane().setBackground(BACKGROUND_COLOR);
 		setSize(WIDTH, HEIGHT);

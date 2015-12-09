@@ -2,16 +2,13 @@ package view;
 
 import controller.Controller;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.net.URL;
 
 /**
  * Created by Vitor on 05/11/2015.
@@ -38,7 +35,7 @@ public class TaskbarView implements View, ActionListener, ItemListener {
 	private CheckboxMenuItem verifyCheckBox;
 	private MenuItem exitItem;
 
-	private BufferedImage img = null;
+	private Image img = null;
 	private AboutFrame aboutFrame;
 
 	private boolean isWaiting = false;
@@ -58,10 +55,12 @@ public class TaskbarView implements View, ActionListener, ItemListener {
 		} catch (Exception e) {}
 
 		popup = new PopupMenu();
-		try {
-			img = ImageIO.read(new File(iconFilePath));
-		} catch (IOException e) {
-			System.exit(1);
+		URL imgURL = getClass().getResource(iconFilePath);
+		if(imgURL != null) {
+			img = Toolkit.getDefaultToolkit().getImage(imgURL);
+		}
+		else {
+			img = Toolkit.getDefaultToolkit().getImage(iconFilePath);
 		}
 		trayIcon = new TrayIcon(img, tooltipTitle);
 		trayIcon.setImageAutoSize(true);

@@ -14,8 +14,12 @@ import view.TaskbarView;
 import view.View;
 
 import java.awt.*;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.security.CodeSource;
 import java.util.*;
 import java.util.List;
 
@@ -30,10 +34,10 @@ public class Controller {
 	private static final String COUNTRY_CODE = "BR";
 
 	//File paths
-	private static final String CONFIG_FILE_PATH = "./config.properties";
-	private static final String PERSISTENCE_FILE_PATH = "./persistence.txt";
-	private static final String ICON_FILE_PATH = "./resources/icon.png";
-	private static final String XML_FILE_PATH = "./";
+	private static final String CONFIG_FILE_PATH = "config.properties";
+	private static final String PERSISTENCE_FILE_PATH = "persistence.txt";
+	private static final String ICON_FILE_PATH = "resources/icon.png";
+	private static final String ICON_FILE_PATH_JAR = "/icon.png";
 
 	//Config properties
 	private static final String PROPERTY_EDOOLS_TOKEN = "edoolsToken";
@@ -96,6 +100,7 @@ public class Controller {
 	//Constants
 	private static final long MILLI_TO_SECONDS_MULTIPLIER = 1000;
 
+	private boolean isJar;
 	private ResourceBundle labels;
 	private ConfigFile configFile;
 	private View view;
@@ -103,24 +108,42 @@ public class Controller {
 	private Persistence persistence;
 	private Timer timer;
 
+	private String baseDir = "./";
 	private boolean timerEnabled = true;
 
 	public void start() {
+		String iconPath;
+		URL resource = Main.class.getResource("Main.class");
+		if(resource.toString().startsWith("jar")) {
+			CodeSource codeSource = Main.class.getProtectionDomain().getCodeSource();
+			File jarFile = null;
+			try {
+				jarFile = new File(codeSource.getLocation().toURI().getPath());
+			} catch (URISyntaxException e) {
+				System.exit(1);
+			}
+			baseDir = jarFile.getParentFile().getPath() + "/";
+			iconPath = ICON_FILE_PATH_JAR;
+		}
+		else {
+			baseDir = "./";
+			iconPath = ICON_FILE_PATH;
+		}
 		labels = ResourceBundle.getBundle(RESOURCE_BUNDLE_NAME, new Locale(LANGUAGE_CODE, COUNTRY_CODE));
 
 		//Check the SystemTray is supported
 		if (SystemTray.isSupported()) {
-			view = new TaskbarView(this, labels.getString(WELCOME_STRING), labels.getString(YES), labels.getString(NO), labels.getString(ABOUT_TEXT), ICON_FILE_PATH, labels.getString(ABOUT), labels.getString(VERIFY_NOW), labels.getString(VERIFY), labels.getString(EXIT));
+			view = new TaskbarView(this, labels.getString(WELCOME_STRING), labels.getString(YES), labels.getString(NO), labels.getString(ABOUT_TEXT), iconPath, labels.getString(ABOUT), labels.getString(VERIFY_NOW), labels.getString(VERIFY), labels.getString(EXIT));
 		}
 		else {
 			view = new ConsoleView(labels.getString(WELCOME_STRING), labels.getString(YES), labels.getString(NO), labels.getString(YES_CHAR), labels.getString(NO_CHAR));
 		}
 
 		try {
-			configFile = new ConfigFile(CONFIG_FILE_PATH);
+			configFile = new ConfigFile(baseDir + CONFIG_FILE_PATH);
 		} catch (FileNotFoundException e) {
 			view.dialog(labels.getString(ERROR_TITLE), labels.getString(CONFIG_FILE_NOT_FOUND));
-			ConfigFile.createDefaultConfigFile(CONFIG_FILE_PATH);
+			ConfigFile.createDefaultConfigFile(baseDir + CONFIG_FILE_PATH);
 			return;
 		} catch (IOException e) {
 			view.dialog(labels.getString(ERROR_TITLE), labels.getString(CONFIG_READ_FAILURE));
@@ -299,7 +322,7 @@ public class Controller {
 		rpsBulk.setListaRps(rpsList);
 
 		try {
-			XMLWriter.generateXML(rpsBulk, XML_FILE_PATH + dateTime.withZone(DateTimeZone.UTC).toString(XML_FILE_NAME_DATE_PATTERN) + XML_FILE_EXTENSION);
+			XMLWriter.generateXML(rpsBulk, baseDir + dateTime.withZone(DateTimeZone.UTC).toString(XML_FILE_NAME_DATE_PATTERN) + XML_FILE_EXTENSION);
 			try {
 				persistence.persist(currentDate);
 			} catch (IOException e) {
