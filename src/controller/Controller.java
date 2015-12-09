@@ -91,6 +91,7 @@ public class Controller {
 	private static final String EDOOLS_API_DATE_PATTERN = "yyyy-MM-dd'T'HH:mm:ss";
 	private static final String RPSBULK_ID_DATE_PATTERN = "HHmmssddMMyyyy";
 	private static final String XML_FILE_NAME_DATE_PATTERN = "dd-MM-yyyy-HH-mm-ss";
+	private static final String XML_FILE_EXTENSION = ".xml";
 
 	//Constants
 	private static final long MILLI_TO_SECONDS_MULTIPLIER = 1000;
@@ -298,7 +299,7 @@ public class Controller {
 		rpsBulk.setListaRps(rpsList);
 
 		try {
-			XMLWriter.generateXML(rpsBulk, XML_FILE_PATH + dateTime.withZone(DateTimeZone.UTC).toString(XML_FILE_NAME_DATE_PATTERN));
+			XMLWriter.generateXML(rpsBulk, XML_FILE_PATH + dateTime.withZone(DateTimeZone.UTC).toString(XML_FILE_NAME_DATE_PATTERN) + XML_FILE_EXTENSION);
 			try {
 				persistence.persist(currentDate);
 			} catch (IOException e) {

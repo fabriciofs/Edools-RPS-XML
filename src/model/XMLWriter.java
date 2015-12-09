@@ -5,6 +5,7 @@ import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Serializer;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 /**
@@ -63,10 +64,11 @@ public class XMLWriter {
 	private static final String CONTATO = "Contato";
 	private static final String EMAIL = "Email";
 
+	private static final String OUTPUT_ENCODING = "UTF-8";
 
 	private XMLWriter() {}
 
-	public static void generateXML(RPSBulk rpsBulk, String path) throws IOException {
+	public static void generateXML(RPSBulk rpsBulk, String outputFile) throws IOException {
 
 		Element enviarLoteRpsEnvio = new Element(ENVIAR_LOTE_RPS_ENVIO);
 
@@ -294,17 +296,19 @@ public class XMLWriter {
 		enviarLoteRpsEnvio.appendChild(loteRps);
 
 		Document doc = new Document(enviarLoteRpsEnvio);
-		Serializer serializer = new Serializer(System.out, "UTF-8");
-		serializer.setIndent(2);
-		serializer.setMaxLength(0);
-		serializer.write(doc);
 
-		//TODO: Actually write to file.
-		/*FileOutputStream fos = new FileOutputStream(path, false);
-		Document doc = new Document(enviarLoteRpsEnvio);
-		Serializer serializer = new Serializer(fos, "UTF-8");
+		//Writes to XML console.
+	/*	Serializer serializer = new Serializer(System.out, OUTPUT_ENCODING);
 		serializer.setIndent(2);
 		serializer.setMaxLength(0);
 		serializer.write(doc);*/
+
+		//Writes XML to file.
+		FileOutputStream fos = new FileOutputStream(outputFile, false);
+		Serializer serializer = new Serializer(fos, OUTPUT_ENCODING);
+		serializer.setIndent(2);
+		serializer.setMaxLength(0);
+		serializer.write(doc);
+		fos.close();
 	}
 }
