@@ -101,6 +101,8 @@ public class Controller {
 	private Persistence persistence;
 	private Timer timer;
 
+	private boolean timerEnabled = true;
+
 	public void start() {
 		labels = ResourceBundle.getBundle(RESOURCE_BUNDLE_NAME, new Locale(LANGUAGE_CODE, COUNTRY_CODE));
 
@@ -140,27 +142,48 @@ public class Controller {
 		@Override
 		public void run() {
 			view.dialog(labels.getString(ALERT_TITLE), labels.getString(CHECKING_NEW_PAYMENTS));
-			if(checkNewPayments()) {
-				stopTimer();
+			checkPayments();
+		}
+	}
 
-				if(view.booleanInput(labels.getString(QUESTION_TITLE), labels.getString(NEW_PAYMENTS_FOUND) + " " + labels.getString(SHOULD_GENERATE_XML))) {
-					generateXML();
-				}
-				else {
-					startTimer(Long.parseLong(configFile.getProperty(CONFIG_CHECK_INTERVAL)) * MILLI_TO_SECONDS_MULTIPLIER);
-				}
+	public void checkPayments() {
+		if(checkNewPayments()) {
+			stopTimer();
+
+			if(view.booleanInput(labels.getString(QUESTION_TITLE), labels.getString(NEW_PAYMENTS_FOUND) + " " + labels.getString(SHOULD_GENERATE_XML))) {
+				generateXML();
+			}
+			else {
+				startTimer(Long.parseLong(configFile.getProperty(CONFIG_CHECK_INTERVAL)) * MILLI_TO_SECONDS_MULTIPLIER);
 			}
 		}
 	}
 
-	public void startTimer(long delay) {
-
-		if(timer != null) {
-			timer.cancel();
+	/**
+	 * Enables or disables the timer.
+	 * @param enabled True enables the timer, false disables.
+	 */
+	public void setTimer(boolean enabled) {
+		if(enabled) {
+			timerEnabled = true;
+			if(!view.isViewWaiting()) {
+				startTimer(Long.parseLong(configFile.getProperty(CONFIG_CHECK_INTERVAL)) * MILLI_TO_SECONDS_MULTIPLIER);
+			}
 		}
-		timer = new Timer(false);
-		timer.scheduleAtFixedRate(new checkPaymentsTask(), delay, Long.parseLong(configFile.getProperty(CONFIG_CHECK_INTERVAL)) * MILLI_TO_SECONDS_MULTIPLIER);
+		else {
+			timerEnabled = false;
+			stopTimer();
+		}
+	}
 
+	public void startTimer(long delay) {
+		if(timerEnabled) {
+			if (timer != null) {
+				timer.cancel();
+			}
+			timer = new Timer(false);
+			timer.scheduleAtFixedRate(new checkPaymentsTask(), delay, Long.parseLong(configFile.getProperty(CONFIG_CHECK_INTERVAL)) * MILLI_TO_SECONDS_MULTIPLIER);
+		}
 	}
 
 	public void stopTimer() {

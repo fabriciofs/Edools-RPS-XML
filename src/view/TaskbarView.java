@@ -7,6 +7,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -14,7 +16,7 @@ import java.io.IOException;
 /**
  * Created by Vitor on 05/11/2015.
  */
-public class TaskbarView implements View, ActionListener {
+public class TaskbarView implements View, ActionListener, ItemListener {
 
 	private final Controller controller;
 
@@ -34,6 +36,8 @@ public class TaskbarView implements View, ActionListener {
 	private MenuItem verifyItem;
 	private CheckboxMenuItem verifyCheckBox;
 	private MenuItem exitItem;
+
+	private boolean isWaiting = false;
 
 	public TaskbarView(Controller controller, String tooltipTitle, String yesText, String noText, String iconFilePath, String about, String verifyNow, String verify, String exit) {
 		this.controller = controller;
@@ -79,7 +83,7 @@ public class TaskbarView implements View, ActionListener {
 
 		//Add listeners to components
 		verifyItem.addActionListener(this);
-		verifyCheckBox.addActionListener(this);
+		verifyCheckBox.addItemListener(this);
 		aboutItem.addActionListener(this);
 		exitItem.addActionListener(this);
 
@@ -106,6 +110,8 @@ public class TaskbarView implements View, ActionListener {
 				yesText,
 				noText
 		};
+
+		isWaiting = true;
 		int n = JOptionPane.showOptionDialog(
 				null, //do not use a frame
 				text,
@@ -115,6 +121,7 @@ public class TaskbarView implements View, ActionListener {
 				null, //do not use a custom Icon
 				options, //the titles of buttons
 				options[0]); //default button title
+		isWaiting = false;
 
 		if(n == JOptionPane.YES_OPTION) {
 			return true;
@@ -125,13 +132,15 @@ public class TaskbarView implements View, ActionListener {
 	}
 
 	@Override
+	public boolean isViewWaiting() {
+		return isWaiting;
+	}
+
+	@Override
 	public void actionPerformed(ActionEvent e) {
 
 		if(e.getSource() == verifyItem) {
-			//TODO: Implement verify button.
-		}
-		else if(e.getSource() == verifyCheckBox) {
-			//TODO: Implement verify checkbox.
+			controller.checkPayments();
 		}
 		else if(e.getSource() == aboutItem) {
 			//TODO: Implement about screen.
@@ -139,6 +148,13 @@ public class TaskbarView implements View, ActionListener {
 		else if(e.getSource() == exitItem) {
 			tray.remove(trayIcon);
 			controller.quit();
+		}
+	}
+
+	@Override
+	public void itemStateChanged(ItemEvent e) {
+		if(e.getSource() == verifyCheckBox) {
+			controller.setTimer(verifyCheckBox.getState());
 		}
 	}
 }

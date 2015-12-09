@@ -299,6 +299,7 @@ public class XMLWriter {
 		serializer.setMaxLength(0);
 		serializer.write(doc);
 
+		//TODO: Actually write to file.
 		/*FileOutputStream fos = new FileOutputStream(path, false);
 		Document doc = new Document(enviarLoteRpsEnvio);
 		Serializer serializer = new Serializer(fos, "UTF-8");

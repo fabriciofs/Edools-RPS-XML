@@ -47,4 +47,9 @@ public class ConsoleView implements View {
 			}
 		}
 	}
+
+	@Override
+	public boolean isViewWaiting() {
+		return false;
+	}
 }

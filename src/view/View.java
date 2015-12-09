@@ -24,4 +24,10 @@ public interface View {
 	 * @return A boolean result.
 	 */
 	boolean booleanInput(String title, String text);
+
+	/**
+	 * Returns whether the view is waiting for user input or not.
+	 * @return True if the view is waiting, false otherwise.
+	 */
+	boolean isViewWaiting();
 }
