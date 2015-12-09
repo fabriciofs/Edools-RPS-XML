@@ -10,6 +10,7 @@ import org.apache.http.HttpHeaders;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -108,30 +109,39 @@ public class Edools {
 	 * @return A List of Payments.
 	 */
 	public List<Payment> getPayments(String startDate, String status) {
-		HttpResponse<JsonNode> response;
-		try {
-			GetRequest request;
-			if(status != null) {
-				 request = Unirest.get(EDOOLS_ECOMMERCE_API + PAYMENTS + "?" + PARAM_START_DATE + "=" + startDate + "&" + PARAM_STATUS + "=" + status);
+
+		int currentPage = 1;
+		int totalPages = 0;
+		List<Payment> result = new ArrayList<>();
+		do {
+			HttpResponse<JsonNode> response;
+			try {
+				GetRequest request;
+				if (status != null) {
+					request = Unirest.get(EDOOLS_ECOMMERCE_API + PAYMENTS + "?" + PARAM_START_DATE + "=" + startDate + "&" + PARAM_STATUS + "=" + status + "&page=" + currentPage + "&per_page=100");
+				} else {
+					request = Unirest.get(EDOOLS_ECOMMERCE_API + PAYMENTS + "?" + PARAM_START_DATE + "=" + startDate + "&page=" + currentPage + "&per_page=100");
+				}
+				response = request
+						.header(HttpHeaders.AUTHORIZATION, AUTHORIZATION_STRING + token)
+						.header(HttpHeaders.ACCEPT, ACCEPT_STRING)
+						.asJson();
+			} catch (UnirestException e) {
+				return null;
 			}
-			else {
-				request = Unirest.get(EDOOLS_ECOMMERCE_API + PAYMENTS + "?" + PARAM_START_DATE + "=" + startDate);
-			}
-			response = request
-					.header(HttpHeaders.AUTHORIZATION, AUTHORIZATION_STRING + token)
-					.header(HttpHeaders.ACCEPT, ACCEPT_STRING)
-					.asJson();
-		} catch (UnirestException e) {
-			return null;
-		}
 
-		JSONObject responseJSON = new JSONObject(response.getBody().toString());
-		JSONArray payments = responseJSON.getJSONArray(RESULT_PAYMENTS);
+			JSONObject responseJSON = new JSONObject(response.getBody().toString());
+			totalPages = responseJSON.getInt("total_pages");
+			JSONArray payments = responseJSON.getJSONArray(RESULT_PAYMENTS);
 
-		Gson gResponse = new Gson();
-		return Arrays.asList(gResponse.fromJson(payments.toString(), Payment[].class));
+			Gson gResponse = new Gson();
+			result.addAll(Arrays.asList(gResponse.fromJson(payments.toString(), Payment[].class)));
 
-		//TODO: Check next pages to get all payments.
+			currentPage++;
+
+		} while(currentPage < totalPages);
+
+		return result;
 	}
 
 	/**
