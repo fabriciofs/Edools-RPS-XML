@@ -22,6 +22,7 @@ public class TaskbarView implements View, ActionListener, ItemListener {
 
 	private final String yesText;
 	private final String noText;
+	private final String aboutText;
 
 	private final String about;
 	private final String verifyNow;
@@ -37,12 +38,16 @@ public class TaskbarView implements View, ActionListener, ItemListener {
 	private CheckboxMenuItem verifyCheckBox;
 	private MenuItem exitItem;
 
+	private BufferedImage img = null;
+	private AboutFrame aboutFrame;
+
 	private boolean isWaiting = false;
 
-	public TaskbarView(Controller controller, String tooltipTitle, String yesText, String noText, String iconFilePath, String about, String verifyNow, String verify, String exit) {
+	public TaskbarView(Controller controller, String tooltipTitle, String yesText, String noText, String aboutText, String iconFilePath, String about, String verifyNow, String verify, String exit) {
 		this.controller = controller;
 		this.yesText = yesText;
 		this.noText = noText;
+		this.aboutText = aboutText;
 		this.about = about;
 		this.verifyNow = verifyNow;
 		this.verify = verify;
@@ -53,7 +58,6 @@ public class TaskbarView implements View, ActionListener, ItemListener {
 		} catch (Exception e) {}
 
 		popup = new PopupMenu();
-		BufferedImage img = null;
 		try {
 			img = ImageIO.read(new File(iconFilePath));
 		} catch (IOException e) {
@@ -143,7 +147,9 @@ public class TaskbarView implements View, ActionListener, ItemListener {
 			controller.checkPayments();
 		}
 		else if(e.getSource() == aboutItem) {
-			//TODO: Implement about screen.
+			aboutFrame = new AboutFrame(img, aboutText);
+			aboutFrame.setVisible(true);
+			aboutFrame.setLocationRelativeTo(null);
 		}
 		else if(e.getSource() == exitItem) {
 			tray.remove(trayIcon);

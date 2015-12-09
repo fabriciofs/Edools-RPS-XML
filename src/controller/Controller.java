@@ -81,6 +81,7 @@ public class Controller {
 	private static final String NO_CHAR = "noChar";
 	private static final String YES = "yes";
 	private static final String NO = "no";
+	private static final String ABOUT_TEXT = "aboutText";
 	private static final String ABOUT = "about";
 	private static final String VERIFY_NOW = "verifyNow";
 	private static final String VERIFY = "verify";
@@ -108,7 +109,7 @@ public class Controller {
 
 		//Check the SystemTray is supported
 		if (SystemTray.isSupported()) {
-			view = new TaskbarView(this, labels.getString(WELCOME_STRING), labels.getString(YES), labels.getString(NO), ICON_FILE_PATH, labels.getString(ABOUT), labels.getString(VERIFY_NOW), labels.getString(VERIFY), labels.getString(EXIT));
+			view = new TaskbarView(this, labels.getString(WELCOME_STRING), labels.getString(YES), labels.getString(NO), labels.getString(ABOUT_TEXT), ICON_FILE_PATH, labels.getString(ABOUT), labels.getString(VERIFY_NOW), labels.getString(VERIFY), labels.getString(EXIT));
 		}
 		else {
 			view = new ConsoleView(labels.getString(WELCOME_STRING), labels.getString(YES), labels.getString(NO), labels.getString(YES_CHAR), labels.getString(NO_CHAR));
