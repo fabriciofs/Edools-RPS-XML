@@ -7,9 +7,11 @@ import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mashape.unirest.request.GetRequest;
 import org.apache.http.HttpHeaders;
+import org.apache.http.HttpStatus;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -51,7 +53,7 @@ public class Edools {
 	 * @param id A product ID.
 	 * @return A Product.
 	 */
-	public Product getProduct(String id) {
+	public Product getProduct(String id) throws InvalidParameterException {
 		HttpResponse<JsonNode> response;
 		try {
 			response = Unirest.get(EDOOLS_CORE_API + SCHOOL_PRODUCTS + id)
@@ -60,6 +62,10 @@ public class Edools {
 					.asJson();
 		} catch (UnirestException e) {
 			return null;
+		}
+
+		if(response.getStatus() != HttpStatus.SC_OK) {
+			throw new InvalidParameterException("Invalid response");
 		}
 
 		Gson gResponse = new Gson();
@@ -72,7 +78,7 @@ public class Edools {
 	 * @param status A payment status. E.g.: "authorized, done". Nullable.
 	 * @return True if there are payments, false otherwise.
 	 */
-	public boolean checkPayments(String startDate, String status) {
+	public boolean checkPayments(String startDate, String status) throws InvalidParameterException {
 		HttpResponse<JsonNode> response;
 		try {
 			GetRequest request;
@@ -88,6 +94,10 @@ public class Edools {
 					.asJson();
 		} catch (UnirestException e) {
 			return false;
+		}
+
+		if(response.getStatus() != HttpStatus.SC_OK) {
+			throw new InvalidParameterException("Invalid response");
 		}
 
 		JSONObject responseJSON = new JSONObject(response.getBody().toString());
@@ -108,10 +118,10 @@ public class Edools {
 	 * @param status A payment status. E.g.: "authorized, done". Nullable.
 	 * @return A List of Payments.
 	 */
-	public List<Payment> getPayments(String startDate, String status) {
+	public List<Payment> getPayments(String startDate, String status) throws InvalidParameterException {
 
 		int currentPage = 1;
-		int totalPages = 0;
+		int totalPages;
 		List<Payment> result = new ArrayList<>();
 		do {
 			HttpResponse<JsonNode> response;
@@ -130,6 +140,9 @@ public class Edools {
 				return null;
 			}
 
+			if(response.getStatus() != HttpStatus.SC_OK) {
+				throw new InvalidParameterException("Invalid response");
+			}
 			JSONObject responseJSON = new JSONObject(response.getBody().toString());
 			totalPages = responseJSON.getInt("total_pages");
 			JSONArray payments = responseJSON.getJSONArray(RESULT_PAYMENTS);
@@ -149,7 +162,7 @@ public class Edools {
 	 * @param guid A customer GUID.
 	 * @return A Customer.
 	 */
-	public Customer getCustomer(String guid) {
+	public Customer getCustomer(String guid) throws InvalidParameterException {
 		HttpResponse<JsonNode> response;
 		try {
 			response = Unirest.get(EDOOLS_ECOMMERCE_API + CUSTOMERS + guid + "?" + PARAM_SCHOOL_GUID + "=" + schoolGuid)
@@ -158,6 +171,10 @@ public class Edools {
 					.asJson();
 		} catch (UnirestException e) {
 			return null;
+		}
+
+		if(response.getStatus() != HttpStatus.SC_OK) {
+			throw new InvalidParameterException("Invalid response");
 		}
 
 		Gson gResponse = new Gson();

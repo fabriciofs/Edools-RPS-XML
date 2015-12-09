@@ -19,6 +19,7 @@ public class TaskbarView implements View, ActionListener, ItemListener {
 
 	private final String yesText;
 	private final String noText;
+	private final String okText;
 	private final String aboutText;
 
 	private final String about;
@@ -39,10 +40,11 @@ public class TaskbarView implements View, ActionListener, ItemListener {
 
 	private boolean isWaiting = false;
 
-	public TaskbarView(Controller controller, String tooltipTitle, String yesText, String noText, String aboutText, String iconFilePath, String about, String verifyNow, String verify, String exit) {
+	public TaskbarView(Controller controller, String tooltipTitle, String yesText, String noText, String okText, String aboutText, String iconFilePath, String about, String verifyNow, String verify, String exit) {
 		this.controller = controller;
 		this.yesText = yesText;
 		this.noText = noText;
+		this.okText = okText;
 		this.aboutText = aboutText;
 		this.about = about;
 		this.verifyNow = verifyNow;
@@ -71,6 +73,18 @@ public class TaskbarView implements View, ActionListener, ItemListener {
 		if(trayIcon != null) {
 			trayIcon.displayMessage(title, text, TrayIcon.MessageType.INFO);
 		}
+	}
+
+	@Override
+	public void okDialog(String title, String text) {
+		Object[] options = {
+				okText
+		};
+
+		isWaiting = true;
+		JOptionPane.showMessageDialog(null, text);
+		System.out.println("here");
+		isWaiting = false;
 	}
 
 	@Override

@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.security.CodeSource;
+import java.security.InvalidParameterException;
 import java.util.*;
 import java.util.List;
 
@@ -71,6 +72,7 @@ public class Controller {
 	private static final String ERROR_TITLE = "errorTitle";
 	private static final String CONFIG_FILE_NOT_FOUND = "configFileNotFound";
 	private static final String CONFIG_READ_FAILURE = "configReadFailure";
+	private static final String INVALID_RESPONSE = "invalidResponse";
 	private static final String CHECK_INTERVAL_NOT_FOUND = "checkIntervalNotFound";
 	private static final String PERSISTENCE_FILE_COULD_NOT_READ = "persistenceFileCouldNotRead";
 	private static final String PERSISTENCE_FILE_COULD_NOT_WRITE = "persistenceFileCouldNotWrite";
@@ -85,6 +87,7 @@ public class Controller {
 	private static final String NO_CHAR = "noChar";
 	private static final String YES = "yes";
 	private static final String NO = "no";
+	private static final String OK = "ok";
 	private static final String ABOUT_TEXT = "aboutText";
 	private static final String ABOUT = "about";
 	private static final String VERIFY_NOW = "verifyNow";
@@ -132,7 +135,7 @@ public class Controller {
 
 		//Check the SystemTray is supported
 		if (SystemTray.isSupported()) {
-			view = new TaskbarView(this, labels.getString(WELCOME_STRING), labels.getString(YES), labels.getString(NO), labels.getString(ABOUT_TEXT), iconPath, labels.getString(ABOUT), labels.getString(VERIFY_NOW), labels.getString(VERIFY), labels.getString(EXIT));
+			view = new TaskbarView(this, labels.getString(WELCOME_STRING), labels.getString(YES), labels.getString(NO), labels.getString(OK), labels.getString(ABOUT_TEXT), iconPath, labels.getString(ABOUT), labels.getString(VERIFY_NOW), labels.getString(VERIFY), labels.getString(EXIT));
 		}
 		else {
 			view = new ConsoleView(labels.getString(WELCOME_STRING), labels.getString(YES), labels.getString(NO), labels.getString(YES_CHAR), labels.getString(NO_CHAR));
@@ -141,16 +144,15 @@ public class Controller {
 		try {
 			configFile = new ConfigFile(baseDir + CONFIG_FILE_PATH);
 		} catch (FileNotFoundException e) {
-			view.dialog(labels.getString(ERROR_TITLE), labels.getString(CONFIG_FILE_NOT_FOUND));
-			ConfigFile.createDefaultConfigFile(baseDir + CONFIG_FILE_PATH);
+			view.okDialog(labels.getString(ERROR_TITLE), labels.getString(CONFIG_FILE_NOT_FOUND));
 			return;
 		} catch (IOException e) {
-			view.dialog(labels.getString(ERROR_TITLE), labels.getString(CONFIG_READ_FAILURE));
+			view.okDialog(labels.getString(ERROR_TITLE), labels.getString(CONFIG_READ_FAILURE));
 			return;
 		}
 
 		if(configFile.getProperty(CONFIG_CHECK_INTERVAL) == null) {
-			view.dialog(labels.getString(ERROR_TITLE), labels.getString(CHECK_INTERVAL_NOT_FOUND));
+			view.okDialog(labels.getString(ERROR_TITLE), labels.getString(CHECK_INTERVAL_NOT_FOUND));
 			return;
 		}
 
@@ -165,12 +167,12 @@ public class Controller {
 
 		@Override
 		public void run() {
-			view.dialog(labels.getString(ALERT_TITLE), labels.getString(CHECKING_NEW_PAYMENTS));
 			checkPayments();
 		}
 	}
 
 	public void checkPayments() {
+		view.dialog(labels.getString(ALERT_TITLE), labels.getString(CHECKING_NEW_PAYMENTS));
 		if(checkNewPayments()) {
 			stopTimer();
 
@@ -239,7 +241,13 @@ public class Controller {
 
 		Edools edools = new Edools(configFile.getProperty(PROPERTY_EDOOLS_TOKEN), configFile.getProperty(PROPERTY_SCHOOL_GUID));
 		DateTimeFormatter dtf = DateTimeFormat.forPattern(EDOOLS_API_DATE_PATTERN);
-		return edools.checkPayments(dateTime.toString(dtf), configFile.getProperty(PROPERTY_EDOOLS_STATUS));
+		try {
+			return edools.checkPayments(dateTime.toString(dtf), configFile.getProperty(PROPERTY_EDOOLS_STATUS));
+		} catch (InvalidParameterException e) {
+			view.okDialog(labels.getString(ERROR_TITLE), labels.getString(INVALID_RESPONSE));
+			System.exit(1);
+		}
+		return false;
 
 	}
 
@@ -252,7 +260,13 @@ public class Controller {
 
 		Edools edools = new Edools(configFile.getProperty(PROPERTY_EDOOLS_TOKEN), configFile.getProperty(PROPERTY_SCHOOL_GUID));
 		DateTimeFormatter dtf = DateTimeFormat.forPattern(EDOOLS_API_DATE_PATTERN);
-		List<Payment> payments = edools.getPayments(dateTime.toString(dtf), configFile.getProperty(PROPERTY_EDOOLS_STATUS));
+		List<Payment> payments = null;
+		try {
+			payments = edools.getPayments(dateTime.toString(dtf), configFile.getProperty(PROPERTY_EDOOLS_STATUS));
+		} catch (InvalidParameterException e) {
+			view.okDialog(labels.getString(ERROR_TITLE), labels.getString(INVALID_RESPONSE));
+			System.exit(1);
+		}
 
 		List<RPS> rpsList = new ArrayList<RPS>();
 
@@ -293,7 +307,13 @@ public class Controller {
 				rps.setServicos_codigoMunicipio(configFile.getProperty(CONFIG_SERVICO_CODIGO_MUNICIPIO));
 				rps.setPrestador_cnpj(configFile.getProperty(CONFIG_CNPJ));
 				rps.setInscricaoMunicipal(configFile.getProperty(CONFIG_INSCRICAO_MUNICIPAL));
-				Customer customer = edools.getCustomer(payment.customer.guid);
+				Customer customer = null;
+				try {
+					customer = edools.getCustomer(payment.customer.guid);
+				} catch (InvalidParameterException e) {
+					view.okDialog(labels.getString(ERROR_TITLE), labels.getString(INVALID_RESPONSE));
+					System.exit(1);
+				}
 				rps.setTomador_cpf(customer.cpf);
 				rps.setRazaoSocial(payment.customer.first_name + " " + payment.customer.last_name);
 				rps.setEndereco("");

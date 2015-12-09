@@ -29,6 +29,11 @@ public class ConsoleView implements View {
 	}
 
 	@Override
+	public void okDialog(String title, String text) {
+		System.out.println(OUTPUT_MARK + "[" + title + "] " + text);
+	}
+
+	@Override
 	public void showMainView() {
 		System.out.println(welcome);
 	}
