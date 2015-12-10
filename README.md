@@ -13,30 +13,29 @@ Verifica via API do Edools em intervalos de tempo especificados para recuperar i
 
 Exemplo/Example - config.properties:
 
-#Arquivo de configuração para o gerador de NFS-e
-edoolsToken = 0123456789abcdefghijklmnopqrstuv:0123456789abcdefghijklmnopqrstuv
-schoolGuid = 000
-edoolsStatus = authorized,done
-checkInterval = 3600
-serie = UNICA
-tipo = 1
-naturezaOperacao = 3
-optanteSimplesNacional = 1
-incentivadorCultural = 0
-status = 1
-cnpj = 12345678901234
-inscricaoMunicipal = 12345678
-deducoes = 0
-pis = 0
-cofins = 0
-inss = 0
-ir = 0
-csll = 0
-issRetido = 2
-iss = 0
-outrasRetencoes = 0
-aliquota = 0
-descontoIncondicionado = 0
-descontoCondicionado = 0
-codigoTributacaoMunicipio = 123456789
-servicoCodigoMunicipio = 1234567
+- edoolsToken = 0123456789abcdefghijklmnopqrstuv:0123456789abcdefghijklmnopqrstuv
+- schoolGuid = 000
+- edoolsStatus = authorized,done
+- checkInterval = 3600
+- serie = UNICA
+- tipo = 1
+- naturezaOperacao = 3
+- optanteSimplesNacional = 1
+- incentivadorCultural = 0
+- status = 1
+- cnpj = 12345678901234
+- inscricaoMunicipal = 12345678
+- deducoes = 0
+- pis = 0
+- cofins = 0
+- inss = 0
+- ir = 0
+- csll = 0
+- issRetido = 2
+- iss = 0
+- outrasRetencoes = 0
+- aliquota = 0
+- descontoIncondicionado = 0
+- descontoCondicionado = 0
+- codigoTributacaoMunicipio = 123456789
+- servicoCodigoMunicipio = 1234567
