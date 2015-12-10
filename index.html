@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Edools-RPS-XML : Generates XML output from Edools to be sent for generation of the Nota Carioca NFS-e (Nota Fiscal de Serviços Eletrônica).">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Edools-RPS-XML</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/vittau/Edools-RPS-XML">View on GitHub</a>
+
+          <h1 id="project_title">Edools-RPS-XML</h1>
+          <h2 id="project_tagline">Generates XML output from Edools to be sent for generation of the Nota Carioca NFS-e (Nota Fiscal de Serviços Eletrônica).</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/vittau/Edools-RPS-XML/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/vittau/Edools-RPS-XML/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a id="edools-rps-xml" class="anchor" href="#edools-rps-xml" aria-hidden="true"><span class="octicon octicon-link"></span></a>Edools-RPS-XML</h1>
+
+<p>Generates XML output from <a href="http://www.edools.com/">Edools</a> for generation of the Nota Carioca NFS-e (Nota Fiscal de Serviços Eletrônica).</p>
+
+<p>It polls the Edools API at specified intervals to retrieve payment, product and customer information and generate an RPS bulk file (XML) to be sent to <a href="https://notacarioca.rio.gov.br/">Nota Carioca</a>.</p>
+
+<p>Usage:</p>
+
+<p>Put the config.properties file in the same folder of the binary.</p>
+
+<p><a href="https://github.com/vittau/Edools-RPS-XML/releases">Download</a></p>
+
+<hr>
+
+<p>Gera saída XML do <a href="http://www.edools.com/">Edools</a> para geração da NFS-e da Nota Carioca (Nota Fiscal de Serviços Eletrônica).</p>
+
+<p>Verifica via API do Edools em intervalos de tempo especificados para recuperar informações de pagamentos, produtos e clientes e gera um arquivo de lote RPS (XML) para ser enviado para a <a href="https://notacarioca.rio.gov.br/">Nota Carioca</a>.</p>
+
+<p>Utilização:</p>
+
+<p>Coloque o arquivo config.properties no mesmo diretório do binário.</p>
+
+<p><a href="https://github.com/vittau/Edools-RPS-XML/releases">Download</a></p>
+
+<hr>
+
+<p>Exemplo/Example - config.properties:</p>
+
+<ul>
+<li>edoolsToken = 0123456789abcdefghijklmnopqrstuv:0123456789abcdefghijklmnopqrstuv</li>
+<li>schoolGuid = 000</li>
+<li>edoolsStatus = authorized,done</li>
+<li>checkInterval = 3600</li>
+<li>serie = UNICA</li>
+<li>tipo = 1</li>
+<li>naturezaOperacao = 3</li>
+<li>optanteSimplesNacional = 1</li>
+<li>incentivadorCultural = 0</li>
+<li>status = 1</li>
+<li>cnpj = 12345678901234</li>
+<li>inscricaoMunicipal = 12345678</li>
+<li>deducoes = 0</li>
+<li>pis = 0</li>
+<li>cofins = 0</li>
+<li>inss = 0</li>
+<li>ir = 0</li>
+<li>csll = 0</li>
+<li>issRetido = 2</li>
+<li>iss = 0</li>
+<li>outrasRetencoes = 0</li>
+<li>aliquota = 0</li>
+<li>descontoIncondicionado = 0</li>
+<li>descontoCondicionado = 0</li>
+<li>codigoTributacaoMunicipio = 123456789</li>
+<li>servicoCodigoMunicipio = 1234567</li>
+</ul>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Edools-RPS-XML maintained by <a href="https://github.com/vittau">vittau</a></p>
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
