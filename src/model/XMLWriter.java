@@ -3,10 +3,10 @@ package model;
 import nu.xom.Attribute;
 import nu.xom.Document;
 import nu.xom.Element;
-import nu.xom.Serializer;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  * Created by Vitor on 05/11/2015.
@@ -305,10 +305,9 @@ public class XMLWriter {
 
 		//Writes XML to file.
 		FileOutputStream fos = new FileOutputStream(outputFile, false);
-		Serializer serializer = new Serializer(fos, OUTPUT_ENCODING);
-		serializer.setIndent(2);
-		serializer.setMaxLength(0);
-		serializer.write(doc);
+		PrintWriter pw = new PrintWriter(fos);
+		pw.write(enviarLoteRpsEnvio.toXML());
+		pw.close();
 		fos.close();
 	}
 }
