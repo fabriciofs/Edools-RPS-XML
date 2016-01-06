@@ -67,6 +67,7 @@ public class Controller {
 	private static final String CONFIG_DESCONTO_CONDICIONADO = "descontoCondicionado";
 	private static final String CONFIG_CODIGO_TRIBUTACAO_MUNICIPIO = "codigoTributacaoMunicipio";
 	private static final String CONFIG_SERVICO_CODIGO_MUNICIPIO = "servicoCodigoMunicipio";
+	private static final String CONFIG_XMLNS = "xmlns";
 
 	//Strings
 	private static final String ERROR_TITLE = "errorTitle";
@@ -341,7 +342,7 @@ public class Controller {
 		rpsBulk.setListaRps(rpsList);
 
 		try {
-			XMLWriter.generateXML(rpsBulk, baseDir + dateTime.withZone(DateTimeZone.UTC).toString(XML_FILE_NAME_DATE_PATTERN) + XML_FILE_EXTENSION);
+			XMLWriter.generateXML(rpsBulk, baseDir + dateTime.withZone(DateTimeZone.UTC).toString(XML_FILE_NAME_DATE_PATTERN) + XML_FILE_EXTENSION, configFile.getProperty(CONFIG_XMLNS));
 			try {
 				persistence.persist(currentDate);
 			} catch (IOException e) {

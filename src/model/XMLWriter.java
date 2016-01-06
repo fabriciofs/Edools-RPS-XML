@@ -1,7 +1,6 @@
 package model;
 
 import nu.xom.Attribute;
-import nu.xom.Document;
 import nu.xom.Element;
 
 import java.io.FileOutputStream;
@@ -65,177 +64,177 @@ public class XMLWriter {
 	private static final String EMAIL = "Email";
 
 	private static final String OUTPUT_ENCODING = "UTF-8";
+	
+	private XMLWriter(String namespace) {}
 
-	private XMLWriter() {}
+	public static void generateXML(RPSBulk rpsBulk, String outputFile, String namespace) throws IOException {
 
-	public static void generateXML(RPSBulk rpsBulk, String outputFile) throws IOException {
+		Element enviarLoteRpsEnvio = new Element(ENVIAR_LOTE_RPS_ENVIO, namespace);
 
-		Element enviarLoteRpsEnvio = new Element(ENVIAR_LOTE_RPS_ENVIO);
-
-		Element loteRps = new Element(LOTE_RPS);
+		Element loteRps = new Element(LOTE_RPS, namespace);
 		loteRps.addAttribute(new Attribute("Id", rpsBulk.getId()));
 
-		Element numeroLote = new Element(NUMERO_LOTE);
+		Element numeroLote = new Element(NUMERO_LOTE, namespace);
 		numeroLote.appendChild(rpsBulk.getNumeroLote());
 		loteRps.appendChild(numeroLote);
 
-		Element cnpj = new Element(CNPJ);
+		Element cnpj = new Element(CNPJ, namespace);
 		cnpj.appendChild(rpsBulk.getCnpj());
 		loteRps.appendChild(cnpj);
 
-		Element inscricaoMunicipal = new Element(INSCRICAO_MUNICIPAL);
+		Element inscricaoMunicipal = new Element(INSCRICAO_MUNICIPAL, namespace);
 		inscricaoMunicipal.appendChild(rpsBulk.getInscricaoMunicipal());
 		loteRps.appendChild(inscricaoMunicipal);
 
-		Element quantidadeRps = new Element(QUANTIDADE_RPS);
+		Element quantidadeRps = new Element(QUANTIDADE_RPS, namespace);
 		quantidadeRps.appendChild(Integer.toString(rpsBulk.getQuantidadeRps()));
 		loteRps.appendChild(quantidadeRps);
 
-		Element listaRps = new Element(LISTA_RPS);
+		Element listaRps = new Element(LISTA_RPS, namespace);
 
 		for (RPS rps : rpsBulk.getListaRps()) {
-			Element rpsElement = new Element(RPS);
+			Element rpsElement = new Element(RPS, namespace);
 
-			Element infRps = new Element(INF_RPS);
+			Element infRps = new Element(INF_RPS, namespace);
 			infRps.addAttribute(new Attribute("Id", rps.getId()));
 
-			Element identificacaoRps = new Element(IDENTIFICACAO_RPS);
+			Element identificacaoRps = new Element(IDENTIFICACAO_RPS, namespace);
 
-			Element numero = new Element(NUMERO);
+			Element numero = new Element(NUMERO, namespace);
 			numero.appendChild(rps.getNumero());
 			identificacaoRps.appendChild(numero);
 			
-			Element serie = new Element(SERIE);
+			Element serie = new Element(SERIE, namespace);
 			serie.appendChild(rps.getSerie());
 			identificacaoRps.appendChild(serie);
 
-			Element tipo = new Element(TIPO);
+			Element tipo = new Element(TIPO, namespace);
 			tipo.appendChild(rps.getTipo());
 			identificacaoRps.appendChild(tipo);
 
 			infRps.appendChild(identificacaoRps);
 
-			Element dataEmissao = new Element(DATA_EMISSAO);
+			Element dataEmissao = new Element(DATA_EMISSAO, namespace);
 			dataEmissao.appendChild(rps.getDataEmissao());
 			infRps.appendChild(dataEmissao);
 
-			Element naturezaOperacao = new Element(NATUREZAO_OPERACAO);
+			Element naturezaOperacao = new Element(NATUREZAO_OPERACAO, namespace);
 			naturezaOperacao.appendChild(rps.getNaturezaOperacao());
 			infRps.appendChild(naturezaOperacao);
 
-			Element optanteSimplesNacional = new Element(OPTANTE_SIMPLES_NACIONAL);
+			Element optanteSimplesNacional = new Element(OPTANTE_SIMPLES_NACIONAL, namespace);
 			optanteSimplesNacional.appendChild(rps.getOptanteSimplesNacional());
 			infRps.appendChild(optanteSimplesNacional);
 
-			Element incentivadorCultural = new Element(INCENTIVADOR_CULTURAL);
+			Element incentivadorCultural = new Element(INCENTIVADOR_CULTURAL, namespace);
 			incentivadorCultural.appendChild(rps.getIncentivadorCultural());
 			infRps.appendChild(incentivadorCultural);
 
-			Element status = new Element(STATUS);
+			Element status = new Element(STATUS, namespace);
 			status.appendChild(rps.getStatus());
 			infRps.appendChild(status);
 
-			Element servico = new Element(SERVICO);
+			Element servico = new Element(SERVICO, namespace);
 
-			Element valores = new Element(VALORES);
+			Element valores = new Element(VALORES, namespace);
 
-			Element valorServicos = new Element(VALOR_SERVICOS);
+			Element valorServicos = new Element(VALOR_SERVICOS, namespace);
 			valorServicos.appendChild(rps.getValorServicos());
 			valores.appendChild(valorServicos);
 
-			Element valorDeducoes = new Element(VALOR_DEDUCOES);
+			Element valorDeducoes = new Element(VALOR_DEDUCOES, namespace);
 			valorDeducoes.appendChild(rps.getValorDeducoes());
 			valores.appendChild(valorDeducoes);
 
-			Element valorPis = new Element(VALOR_PIS);
+			Element valorPis = new Element(VALOR_PIS, namespace);
 			valorPis.appendChild(rps.getValorPis());
 			valores.appendChild(valorPis);
 
-			Element valorCofins = new Element(VALOR_COFINS);
+			Element valorCofins = new Element(VALOR_COFINS, namespace);
 			valorCofins.appendChild(rps.getValorCofins());
 			valores.appendChild(valorCofins);
 
-			Element valorInss = new Element(VALOR_INSS);
+			Element valorInss = new Element(VALOR_INSS, namespace);
 			valorInss.appendChild(rps.getValorInss());
 			valores.appendChild(valorInss);
 
-			Element valorIr = new Element(VALOR_IR);
+			Element valorIr = new Element(VALOR_IR, namespace);
 			valorIr.appendChild(rps.getValorIr());
 			valores.appendChild(valorIr);
 
-			Element valorCsll = new Element(VALOR_CSLL);
+			Element valorCsll = new Element(VALOR_CSLL, namespace);
 			valorCsll.appendChild(rps.valorCsll);
 			valores.appendChild(valorCsll);
 
-			Element issRetido = new Element(ISS_RETIDO);
+			Element issRetido = new Element(ISS_RETIDO, namespace);
 			issRetido.appendChild(rps.getIssRetido());
 			valores.appendChild(issRetido);
 
-			Element valorIss = new Element(VALOR_ISS);
+			Element valorIss = new Element(VALOR_ISS, namespace);
 			valorIss.appendChild(rps.getValorIss());
 			valores.appendChild(valorIss);
 
-			Element outrasRetencoes = new Element(OUTRAS_RETENCOES);
+			Element outrasRetencoes = new Element(OUTRAS_RETENCOES, namespace);
 			outrasRetencoes.appendChild(rps.getOutrasRetencoes());
 			valores.appendChild(outrasRetencoes);
 
-			Element aliquota = new Element(ALIQUOTA);
+			Element aliquota = new Element(ALIQUOTA, namespace);
 			aliquota.appendChild(rps.getAliquota());
 			valores.appendChild(aliquota);
 
-			Element descontoIncondicionado = new Element(DESCONTO_INCONDICIONADO);
+			Element descontoIncondicionado = new Element(DESCONTO_INCONDICIONADO, namespace);
 			descontoIncondicionado.appendChild(rps.getDescontoIncondicionado());
 			valores.appendChild(descontoIncondicionado);
 
-			Element descontoCondicionado = new Element(DESCONTO_CONDICIONADO);
+			Element descontoCondicionado = new Element(DESCONTO_CONDICIONADO, namespace);
 			descontoCondicionado.appendChild(rps.getDescontoCondicionado());
 			valores.appendChild(descontoCondicionado);
 
 			servico.appendChild(valores);
 
-			Element itemListaServico = new Element(ITEM_LISTA_SERVICO);
+			Element itemListaServico = new Element(ITEM_LISTA_SERVICO, namespace);
 			itemListaServico.appendChild(rps.getItemListaServico());
 			servico.appendChild(itemListaServico);
 
-			Element codigoTributacaoMunicipio = new Element(CODIGO_TRIBUTACAO_MUNICIPIO);
+			Element codigoTributacaoMunicipio = new Element(CODIGO_TRIBUTACAO_MUNICIPIO, namespace);
 			codigoTributacaoMunicipio.appendChild(rps.getCodigoTributacaoMunicipio());
 			servico.appendChild(codigoTributacaoMunicipio);
 
-			Element discriminacao = new Element(DISCRIMINACAO);
+			Element discriminacao = new Element(DISCRIMINACAO, namespace);
 			discriminacao.appendChild(rps.getDiscriminacao());
 			servico.appendChild(discriminacao);
 
-			Element servicosCodigoMunicipio = new Element(CODIGO_MUNICIPIO);
+			Element servicosCodigoMunicipio = new Element(CODIGO_MUNICIPIO, namespace);
 			servicosCodigoMunicipio.appendChild(rps.getServicos_codigoMunicipio());
 			servico.appendChild(servicosCodigoMunicipio);
 
 			infRps.appendChild(servico);
 
-			Element prestador = new Element(PRESTADOR);
+			Element prestador = new Element(PRESTADOR, namespace);
 
-			Element prestadorCnpj = new Element(CNPJ);
+			Element prestadorCnpj = new Element(CNPJ, namespace);
 			prestadorCnpj.appendChild(rps.getPrestador_cnpj());
 			prestador.appendChild(prestadorCnpj);
 
-			Element prestadorInscricaoMunicipal = new Element(INSCRICAO_MUNICIPAL);
+			Element prestadorInscricaoMunicipal = new Element(INSCRICAO_MUNICIPAL, namespace);
 			prestadorInscricaoMunicipal.appendChild(rps.getInscricaoMunicipal());
 			prestador.appendChild(prestadorInscricaoMunicipal);
 
 			infRps.appendChild(prestador);
 
-			Element tomador = new Element(TOMADOR);
+			Element tomador = new Element(TOMADOR, namespace);
 
-			Element identificaoTomador = new Element(IDENTIFICACAO_TOMADOR);
+			Element identificaoTomador = new Element(IDENTIFICACAO_TOMADOR, namespace);
 
-			Element cpfCnpj = new Element(CPF_CNPJ);
+			Element cpfCnpj = new Element(CPF_CNPJ, namespace);
 			
 			if(rps.getTomador_cpf() == null) {
-				Element tomadorCnpj = new Element(CNPJ);
+				Element tomadorCnpj = new Element(CNPJ, namespace);
 				tomadorCnpj.appendChild(rps.getTomador_cnpj());
 				cpfCnpj.appendChild(tomadorCnpj);
 			}
 			else {
-				Element tomadorCpf = new Element(CPF);
+				Element tomadorCpf = new Element(CPF, namespace);
 				tomadorCpf.appendChild(rps.getTomador_cpf());
 				cpfCnpj.appendChild(tomadorCpf);
 			}
@@ -243,45 +242,45 @@ public class XMLWriter {
 			
 			tomador.appendChild(identificaoTomador);
 			
-			Element razaoSocial = new Element(RAZAO_SOCIAL);
+			Element razaoSocial = new Element(RAZAO_SOCIAL, namespace);
 			razaoSocial.appendChild(rps.getRazaoSocial());
 			tomador.appendChild(razaoSocial);
 			
-			Element endereco = new Element(ENDERECO);
+			Element endereco = new Element(ENDERECO, namespace);
 
-			Element enderecoEndereco = new Element(ENDERECO);
+			Element enderecoEndereco = new Element(ENDERECO, namespace);
 			enderecoEndereco.appendChild(rps.getEndereco());
 			endereco.appendChild(enderecoEndereco);
 
-			Element enderecoNumero = new Element(NUMERO);
+			Element enderecoNumero = new Element(NUMERO, namespace);
 			enderecoNumero.appendChild(rps.getEndereco_numero());
 			endereco.appendChild(enderecoNumero);
 
-			Element complemento = new Element(COMPLEMENTO);
+			Element complemento = new Element(COMPLEMENTO, namespace);
 			complemento.appendChild(rps.getComplemento());
 			endereco.appendChild(complemento);
 
-			Element bairro = new Element(BAIRRO);
+			Element bairro = new Element(BAIRRO, namespace);
 			bairro.appendChild(rps.getBairro());
 			endereco.appendChild(bairro);
 
-			Element enderecoCodigoMunicipio = new Element(CODIGO_MUNICIPIO);
+			Element enderecoCodigoMunicipio = new Element(CODIGO_MUNICIPIO, namespace);
 			enderecoCodigoMunicipio.appendChild(rps.getEndereco_codigoMunicipio());
 			endereco.appendChild(enderecoCodigoMunicipio);
 
-			Element uf = new Element(UF);
+			Element uf = new Element(UF, namespace);
 			uf.appendChild(rps.getUf());
 			endereco.appendChild(uf);
 
-			Element cep = new Element(CEP);
+			Element cep = new Element(CEP, namespace);
 			cep.appendChild(rps.getCep());
 			endereco.appendChild(cep);
 			
 			tomador.appendChild(endereco);
 
-			Element contato = new Element(CONTATO);
+			Element contato = new Element(CONTATO, namespace);
 
-			Element email = new Element(EMAIL);
+			Element email = new Element(EMAIL, namespace);
 			email.appendChild(rps.getEmail());
 			contato.appendChild(email);
 
@@ -295,7 +294,7 @@ public class XMLWriter {
 		loteRps.appendChild(listaRps);
 		enviarLoteRpsEnvio.appendChild(loteRps);
 
-		Document doc = new Document(enviarLoteRpsEnvio);
+		//Document doc = new Document(enviarLoteRpsEnvio);
 
 		//Writes to XML console.
 	/*	Serializer serializer = new Serializer(System.out, OUTPUT_ENCODING);
