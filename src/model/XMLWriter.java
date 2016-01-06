@@ -248,35 +248,51 @@ public class XMLWriter {
 			
 			Element endereco = new Element(ENDERECO, namespace);
 
-			Element enderecoEndereco = new Element(ENDERECO, namespace);
-			enderecoEndereco.appendChild(rps.getEndereco());
-			endereco.appendChild(enderecoEndereco);
+			if(!rps.getEndereco().isEmpty()) {
+				Element enderecoEndereco = new Element(ENDERECO, namespace);
+				enderecoEndereco.appendChild(rps.getEndereco());
+				endereco.appendChild(enderecoEndereco);
+			}
 
-			Element enderecoNumero = new Element(NUMERO, namespace);
-			enderecoNumero.appendChild(rps.getEndereco_numero());
-			endereco.appendChild(enderecoNumero);
+			if(!rps.getEndereco_numero().isEmpty()) {
+				Element enderecoNumero = new Element(NUMERO, namespace);
+				enderecoNumero.appendChild(rps.getEndereco_numero());
+				endereco.appendChild(enderecoNumero);
+			}
 
-			Element complemento = new Element(COMPLEMENTO, namespace);
-			complemento.appendChild(rps.getComplemento());
-			endereco.appendChild(complemento);
+			if(!rps.getComplemento().isEmpty()) {
+				Element complemento = new Element(COMPLEMENTO, namespace);
+				complemento.appendChild(rps.getComplemento());
+				endereco.appendChild(complemento);
+			}
 
-			Element bairro = new Element(BAIRRO, namespace);
-			bairro.appendChild(rps.getBairro());
-			endereco.appendChild(bairro);
+			if(!rps.getBairro().isEmpty()) {
+				Element bairro = new Element(BAIRRO, namespace);
+				bairro.appendChild(rps.getBairro());
+				endereco.appendChild(bairro);
+			}
 
-			Element enderecoCodigoMunicipio = new Element(CODIGO_MUNICIPIO, namespace);
-			enderecoCodigoMunicipio.appendChild(rps.getEndereco_codigoMunicipio());
-			endereco.appendChild(enderecoCodigoMunicipio);
+			if(!rps.getEndereco_codigoMunicipio().isEmpty()) {
+				Element enderecoCodigoMunicipio = new Element(CODIGO_MUNICIPIO, namespace);
+				enderecoCodigoMunicipio.appendChild(rps.getEndereco_codigoMunicipio());
+				endereco.appendChild(enderecoCodigoMunicipio);
+			}
 
-			Element uf = new Element(UF, namespace);
-			uf.appendChild(rps.getUf());
-			endereco.appendChild(uf);
+			if(!rps.getUf().isEmpty()) {
+				Element uf = new Element(UF, namespace);
+				uf.appendChild(rps.getUf());
+				endereco.appendChild(uf);
+			}
 
-			Element cep = new Element(CEP, namespace);
-			cep.appendChild(rps.getCep());
-			endereco.appendChild(cep);
-			
-			tomador.appendChild(endereco);
+			if(!rps.getCep().isEmpty()) {
+				Element cep = new Element(CEP, namespace);
+				cep.appendChild(rps.getCep());
+				endereco.appendChild(cep);
+			}
+
+			if(endereco.getChildElements().size() != 0) {
+				tomador.appendChild(endereco);
+			}
 
 			Element contato = new Element(CONTATO, namespace);
 
