@@ -65,6 +65,7 @@ public class Controller {
 	private static final String CONFIG_ALIQUOTA = "aliquota";
 	private static final String CONFIG_DESCONTO_INCONDICIONADO = "descontoIncondicionado";
 	private static final String CONFIG_DESCONTO_CONDICIONADO = "descontoCondicionado";
+	private static final String CONFIG_ITEM_LISTA_SERVICO = "itemListaServico";
 	private static final String CONFIG_CODIGO_TRIBUTACAO_MUNICIPIO = "codigoTributacaoMunicipio";
 	private static final String CONFIG_SERVICO_CODIGO_MUNICIPIO = "servicoCodigoMunicipio";
 	private static final String CONFIG_XMLNS = "xmlns";
@@ -302,11 +303,7 @@ public class Controller {
 				rps.setAliquota(getValorString(Double.parseDouble(configFile.getProperty(CONFIG_ALIQUOTA))*item.amount_to_pay));
 				rps.setDescontoIncondicionado(getValorString(Double.parseDouble(configFile.getProperty(CONFIG_DESCONTO_INCONDICIONADO))*item.amount_to_pay));
 				rps.setDescontoCondicionado(getValorString(Double.parseDouble(configFile.getProperty(CONFIG_DESCONTO_CONDICIONADO))*item.amount_to_pay));
-				String itemListaServico = Long.toString(item.id);
-				if(itemListaServico.length() > 4) {
-					itemListaServico = itemListaServico.substring(itemListaServico.length()-4);
-				}
-				rps.setItemListaServico(itemListaServico);
+				rps.setItemListaServico(getValorString(Double.parseDouble(configFile.getProperty(CONFIG_ITEM_LISTA_SERVICO))));
 				rps.setCodigoTributacaoMunicipio(configFile.getProperty(CONFIG_CODIGO_TRIBUTACAO_MUNICIPIO));
 				rps.setDiscriminacao(item.product.name);
 				rps.setServicos_codigoMunicipio(configFile.getProperty(CONFIG_SERVICO_CODIGO_MUNICIPIO));
