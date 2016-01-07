@@ -303,7 +303,7 @@ public class Controller {
 				rps.setAliquota(getValorString(Double.parseDouble(configFile.getProperty(CONFIG_ALIQUOTA))*item.amount_to_pay));
 				rps.setDescontoIncondicionado(getValorString(Double.parseDouble(configFile.getProperty(CONFIG_DESCONTO_INCONDICIONADO))*item.amount_to_pay));
 				rps.setDescontoCondicionado(getValorString(Double.parseDouble(configFile.getProperty(CONFIG_DESCONTO_CONDICIONADO))*item.amount_to_pay));
-				rps.setItemListaServico(getValorString(Double.parseDouble(configFile.getProperty(CONFIG_ITEM_LISTA_SERVICO))));
+				rps.setItemListaServico(configFile.getProperty(CONFIG_ITEM_LISTA_SERVICO));
 				rps.setCodigoTributacaoMunicipio(configFile.getProperty(CONFIG_CODIGO_TRIBUTACAO_MUNICIPIO));
 				rps.setDiscriminacao(item.product.name);
 				rps.setServicos_codigoMunicipio(configFile.getProperty(CONFIG_SERVICO_CODIGO_MUNICIPIO));
