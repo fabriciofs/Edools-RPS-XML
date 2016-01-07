@@ -33,7 +33,7 @@ Exemplo/Example - config.properties:
 - tipo = 1
 - naturezaOperacao = 3
 - optanteSimplesNacional = 1
-- incentivadorCultural = 0
+- incentivadorCultural = 2
 - status = 1
 - cnpj = 12345678901234
 - inscricaoMunicipal = 12345678
@@ -49,5 +49,6 @@ Exemplo/Example - config.properties:
 - aliquota = 0
 - descontoIncondicionado = 0
 - descontoCondicionado = 0
+- itemListaServico = 0802
 - codigoTributacaoMunicipio = 123456789
 - servicoCodigoMunicipio = 1234567
