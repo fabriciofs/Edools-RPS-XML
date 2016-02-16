@@ -4,50 +4,40 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <title>Edools-RPS-XML by vittau</title>
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/github-dark.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="javascripts/respond.js"></script>
-    <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <!--[if lt IE 8]>
-    <link rel="stylesheet" href="stylesheets/ie.css">
-    <![endif]-->
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <meta name="viewport" content="width=device-width">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
   </head>
   <body>
-      <div id="header">
-        <nav>
-          <li class="fork"><a href="https://github.com/vittau/Edools-RPS-XML">View On GitHub</a></li>
-          <li class="downloads"><a href="https://github.com/vittau/Edools-RPS-XML/zipball/master">ZIP</a></li>
-          <li class="downloads"><a href="https://github.com/vittau/Edools-RPS-XML/tarball/master">TAR</a></li>
-          <li class="title">DOWNLOADS</li>
-        </nav>
-      </div><!-- end header -->
-
     <div class="wrapper">
+      <header>
+        <h1>Edools-RPS-XML</h1>
+        <p>Generates XML output from Edools to be sent for generation of the Nota Carioca NFS-e (Nota Fiscal de Serviços Eletrônica).</p>
 
+        <p class="view"><a href="https://github.com/vittau/Edools-RPS-XML">View the Project on GitHub <small>vittau/Edools-RPS-XML</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/vittau/Edools-RPS-XML/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/vittau/Edools-RPS-XML/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/vittau/Edools-RPS-XML">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
       <section>
-        <div id="title">
-          <h1>Edools-RPS-XML</h1>
-          <p>Generates XML output from Edools to be sent for generation of the Nota Carioca NFS-e (Nota Fiscal de Serviços Eletrônica).</p>
-          <hr>
-          <span class="credits left">Project maintained by <a href="https://github.com/vittau">vittau</a></span>
-          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
-        </div>
-
         <h1>
-<a id="edools-rps-xml" class="anchor" href="#edools-rps-xml" aria-hidden="true"><span class="octicon octicon-link"></span></a>Edools-RPS-XML</h1>
+<a id="edools-rps-xml" class="anchor" href="#edools-rps-xml" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Edools-RPS-XML</h1>
 
 <h2>
-<a id="generates-xml-output-from-edools-for-generation-of-the-nota-carioca-nfs-e-nota-fiscal-de-serviços-eletrônica" class="anchor" href="#generates-xml-output-from-edools-for-generation-of-the-nota-carioca-nfs-e-nota-fiscal-de-servi%C3%A7os-eletr%C3%B4nica" aria-hidden="true"><span class="octicon octicon-link"></span></a>Generates XML output from <a href="http://www.edools.com/">Edools</a> for generation of the Nota Carioca NFS-e (Nota Fiscal de Serviços Eletrônica).</h2>
+<a id="generates-xml-output-from-edools-for-generation-of-the-nota-carioca-nfs-e-nota-fiscal-de-serviços-eletrônica" class="anchor" href="#generates-xml-output-from-edools-for-generation-of-the-nota-carioca-nfs-e-nota-fiscal-de-servi%C3%A7os-eletr%C3%B4nica" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Generates XML output from <a href="http://www.edools.com/">Edools</a> for generation of the Nota Carioca NFS-e (Nota Fiscal de Serviços Eletrônica).</h2>
 
 <p>It polls the Edools API at specified intervals to retrieve payment, product and customer information and generate an RPS bulk file (XML) to be sent to <a href="https://notacarioca.rio.gov.br/">Nota Carioca</a>.</p>
 
 <h3>
-<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage:</h3>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage:</h3>
 
 <p>Put the config.properties file in the same folder of the binary.</p>
 
@@ -56,12 +46,12 @@
 <hr>
 
 <h2>
-<a id="gera-saída-xml-do-edools-para-geração-da-nfs-e-da-nota-carioca-nota-fiscal-de-serviços-eletrônica" class="anchor" href="#gera-sa%C3%ADda-xml-do-edools-para-gera%C3%A7%C3%A3o-da-nfs-e-da-nota-carioca-nota-fiscal-de-servi%C3%A7os-eletr%C3%B4nica" aria-hidden="true"><span class="octicon octicon-link"></span></a>Gera saída XML do <a href="http://www.edools.com/">Edools</a> para geração da NFS-e da Nota Carioca (Nota Fiscal de Serviços Eletrônica).</h2>
+<a id="gera-saída-xml-do-edools-para-geração-da-nfs-e-da-nota-carioca-nota-fiscal-de-serviços-eletrônica" class="anchor" href="#gera-sa%C3%ADda-xml-do-edools-para-gera%C3%A7%C3%A3o-da-nfs-e-da-nota-carioca-nota-fiscal-de-servi%C3%A7os-eletr%C3%B4nica" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Gera saída XML do <a href="http://www.edools.com/">Edools</a> para geração da NFS-e da Nota Carioca (Nota Fiscal de Serviços Eletrônica).</h2>
 
 <p>Verifica via API do Edools em intervalos de tempo especificados para recuperar informações de pagamentos, produtos e clientes e gera um arquivo de lote RPS (XML) para ser enviado para a <a href="https://notacarioca.rio.gov.br/">Nota Carioca</a>.</p>
 
 <h3>
-<a id="utilização" class="anchor" href="#utiliza%C3%A7%C3%A3o" aria-hidden="true"><span class="octicon octicon-link"></span></a>Utilização:</h3>
+<a id="utilização" class="anchor" href="#utiliza%C3%A7%C3%A3o" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Utilização:</h3>
 
 <p>Coloque o arquivo config.properties no mesmo diretório do binário.</p>
 
@@ -70,7 +60,7 @@
 <hr>
 
 <h3>
-<a id="exemploexample---configproperties" class="anchor" href="#exemploexample---configproperties" aria-hidden="true"><span class="octicon octicon-link"></span></a>Exemplo/Example - config.properties:</h3>
+<a id="exemploexample---configproperties" class="anchor" href="#exemploexample---configproperties" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Exemplo/Example - config.properties:</h3>
 
 <pre><code>edoolsToken = 0123456789abcdefghijklmnopqrstuv:0123456789abcdefghijklmnopqrstuv
 schoolGuid = 000
@@ -101,9 +91,12 @@ codigoTributacaoMunicipio = 123456789
 servicoCodigoMunicipio = 1234567
 </code></pre>
       </section>
-
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/vittau">vittau</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
     </div>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    <script src="javascripts/scale.fix.js"></script>
               <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
