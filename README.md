@@ -50,5 +50,5 @@ Exemplo/Example - config.properties:
 - descontoIncondicionado = 0
 - descontoCondicionado = 0
 - itemListaServico = 0802
-- codigoTributacaoMunicipio = 123456789
+- codigoTributacaoMunicipio = 080214
 - servicoCodigoMunicipio = 1234567
